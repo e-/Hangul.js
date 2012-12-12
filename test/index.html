@@ -1,9 +1,35 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<meta charset="utf-8">
+		<meta charset="utf-8">
+		<title>Hangul.js</title>
+		<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.10.0.css">
+		<style>
+			#str{
+				width:500px;
+				height:100px;
+			}
+		</style>
 	</head>
 	<body>
-		hello
+		<div id="qunit">
+		</div>
+		<h2><code>Hangul.assemble(Hangul.disassemble(str) === str // for well-formed Hangul-string str</code></h2>
+		<form id="test1">
+			<h3>str</h3>
+			<textarea id="str" placeholder="str"></textarea>
+			<button type="submit">Hangul.assemble(Hangul.disassemble(str))</button>
+			<h3>disassemble result</h3>
+			<div id="test1-result1"></div>
+			<h3>asssemble result</h3>
+			<div id="test1-summary2">
+			</div>
+			<div id="test1-result2">
+			</div>
+		</form>
+		<script src="../hangul.js"></script>
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+		<script src="index.js"></script>
 	</body>
 </html>
