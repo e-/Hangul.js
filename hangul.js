@@ -1,3 +1,11 @@
+/**
+ * Hangul.js
+ * https://github.com/e-/Hangul.js
+ *
+ * Copyright 2013, Jaemin Jo
+ * under the GPL Version 3 license.
+ */
+
 ;var Hangul = (function(){
 	var CHO = [
 				'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
@@ -17,18 +25,18 @@
 				'ㅂ', ['ㅂ','ㅅ'], 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
 			]
 		,	HANGUL_OFFSET = 0xAC00
-		, CONSONANTS = [ //자음 
+		,	CONSONANTS = [  
 				'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄸ',
 				'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 
 				'ㅁ', 'ㅂ', 'ㅃ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 
 				'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
 			]
-		, COMPLETE_CHO = [ 
+		,	COMPLETE_CHO = [ 
 				'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
 			  'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
 			  'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'		
 			]
-		, COMPLETE_JUNG = [
+		,	COMPLETE_JUNG = [
 				'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
 				'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ',
 				'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ',
@@ -63,15 +71,15 @@
 			]
 		,	CONSONANTS_HASH
 		,	CHO_HASH
-		, JUNG_HASH
-		, JONG_HASH
+		,	JUNG_HASH
+		,	JONG_HASH
 		,	COMPLEX_CONSONANTS_HASH
-		, COMPLEX_VOWELS_HASH
+		,	COMPLEX_VOWELS_HASH
 		;
 
 
 	function _makeHash(array){
-		var length = array.length
+		var	length = array.length
 			,	hash = {0 : 0}
 			;
 		for (var i = 0 ; i < length ; i++) {
@@ -107,7 +115,7 @@
 	COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
 
 	function _isConsonant(c){
-		return COSONATNS_HASH[c];
+		return CONSONANTS_HASH[c];
 	}
 
 	function _isCho(c){
@@ -139,17 +147,17 @@
 			string = string.join('');
 		}
 
-		var result = []
+		var 	result = []
 			,	length = string.length
 			,	cho
 			,	jung
 			,	jong
-			, code 
+			,	code 
 			;
 
 		for (var i = 0 ; i < length ; i++) {
 			code = string.charCodeAt(i);
-			if (_isHangul(code)) {
+			if (_isHangul(code)) { // 완성된 한글이면
 				code -= HANGUL_OFFSET;
 				jong = code % 28;
 				jung = (code - jong) / 28 % 21;
@@ -167,6 +175,25 @@
 						result.push(JONG[jong]);
 					}
 				}
+			} else if (_isConsonant(code)) { //자음이면
+				var r;
+				if (_isCho(code)) {
+					r = CHO[CHO_HASH[code]];
+				} else {
+					r = JONG[JONG_HASH[code]];
+				}
+				if (typeof r == 'string') {
+					result.push(r);
+				} else {
+					result = result.concat(r);
+				}
+			} else if (_isJung(code)) {
+				var r = JUNG[JUNG_HASH[code]];
+				if (typeof r == 'string') {
+					result.push(r);
+				} else { 
+					result = result.concat(r);
+				}
 			} else {
 				result.push(string[i]);
 			}
@@ -179,23 +206,23 @@
 			array = disassemble(array);
 		}
 
-		var result = []
+		var	result = []
 			,	length = array.length
-			, code 
-			, stage = 0
+			,	code 
+			,	stage = 0
 			,	complete_index = -1 //완성된 곳의 인덱스
-			, previous_code
+			,	previous_code
 			,	previous_previous_code
 			;
 
 		function _makeHangul(index){ // complete_index + 1부터 index까지를 greedy하게 한글로 만든다.
 			var	code
-				, cho
-				, jung1
-				, jung2
-				, jong1 = 0
+				,	cho
+				,	jung1
+				,	jung2
+				,	jong1 = 0
 				,	jong2
-				, hangul = ''
+				,	hangul = ''
 				;
 			if (complete_index + 1 > index) {
 				return;
@@ -212,7 +239,15 @@
 					hangul = array[complete_index + step];
 				} else if (step === 2) {
 					jung1 = array[complete_index + step].charCodeAt(0);
-					hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET);
+					if (_isCho(jung1)) { //두번째 또 자음이 오면 ㄳ 에서 ㅅ같은 경우이다
+						cho = _isJongJoinable(cho, jung1);
+						hangul = String.fromCharCode(cho);
+						result.push(hangul);
+						complete_index = index;
+						return;
+					} else {
+						hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET);
+					}
 				} else if (step === 3) {
 					jung2 = array[complete_index + step].charCodeAt(0);
 					if (_isJungJoinable(jung1, jung2)) {
@@ -235,8 +270,6 @@
 					hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
 				}
 				
-				console.log(step, array[complete_index + step], hangul);
-
 				if (complete_index + step >= index) {
 					result.push(hangul);
 					complete_index = index;
