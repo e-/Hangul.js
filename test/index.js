@@ -196,7 +196,124 @@ $(function(){
 			-1,
 			"searcher.search('닮은')"
 		);
-	}) ;
+	});
+
+	test ('Hangul Check Tests', function(){
+		equal(
+			Hangul.isHangul('한'),
+			true,
+			"Hangul.isHangul('한')"
+		);
+		equal(
+			Hangul.isHangul('ㄱ'),
+			false,
+			"Hangul.isHangul('ㄱ')"
+		);
+		equal(
+			Hangul.isHangul('ㅙ'),
+			false,
+			"Hangul.isHangul('ㅙ')"
+		);
+		equal(
+			Hangul.isHangul('a'),
+			false,
+			"Hangul.isHangul('a')"
+		);
+
+		equal(
+			Hangul.isConsonant('한'),
+			false,
+			"Hangul.isConsonant('한')"
+		);
+		equal(
+			Hangul.isConsonant('ㄱ'),
+			true,
+			"Hangul.isConsonant('ㄱ')"
+		);
+		equal(
+			Hangul.isConsonant('ㅙ'),
+			false,
+			"Hangul.isConsonant('ㅙ')"
+		);
+		equal(
+			Hangul.isConsonant('a'),
+			false,
+			"Hangul.isConsonant('a')"
+		);
+
+		equal(
+			Hangul.isVowel('한'),
+			false,
+			"Hangul.isVowel('한')"
+		);
+		equal(
+			Hangul.isVowel('ㄱ'),
+			false,
+			"Hangul.isVowel('ㄱ')"
+		);
+		equal(
+			Hangul.isVowel('ㅙ'),
+			true,
+			"Hangul.isVowel('ㅙ')"
+		);
+		equal(
+			Hangul.isVowel('a'),
+			false,
+			"Hangul.isVowel('a')"
+		);
+		
+		equal(
+			Hangul.isCho('ㄱ'),
+			true,
+			"Hangul.isCho('ㄱ')"
+		);
+		equal(
+			Hangul.isCho('ㄸ'),
+			true,
+			"Hangul.isCho('ㄸ')"
+		);
+		equal(
+			Hangul.isCho('ㄳ'),
+			false,
+			"Hangul.isCho('ㄳ')"
+		);
+		equal(
+			Hangul.isCho('ㅏ'),
+			false,
+			"Hangul.isCho('ㅏ')"
+		);
+		equal(
+			Hangul.isCho('a'),
+			false,
+			"Hangul.isCho('a')"
+		);
+
+		equal(
+			Hangul.isJong('ㄱ'),
+			true,
+			"Hangul.isJong('ㄱ')"
+		);
+		equal(
+			Hangul.isJong('ㄸ'),
+			false,
+			"Hangul.isJong('ㄸ')"
+		);
+		equal(
+			Hangul.isJong('ㄳ'),
+			true,
+			"Hangul.isJong('ㄳ')"
+		);
+		equal(
+			Hangul.isCho('ㅏ'),
+			false,
+			"Hangul.isJong('ㅏ')"
+		);
+		equal(
+			Hangul.isCho('a'),
+			false,
+			"Hangul.isJong('a')"
+		);
+	});
 	
 	
 	$('#test1').submit(function(){
