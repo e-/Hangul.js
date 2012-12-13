@@ -45,6 +45,16 @@ $(function(){
 			['ㅂ','ㅜ','ㅔ','ㄹ','ㄱ','ㄱ','ㅜ','ㅔ','ㄹ','ㄹ','ㅡ','ㅣ','ㅍ','ㅉ','ㅡ','ㅣ','ㄹ','ㅂ','ㅌ','ㅜ','ㅣ','ㄹ','ㅂ'],
 			'Hangul.disassemble(\'뷁궬릪쮧틟\')'
 		);
+		deepEqual(
+			Hangul.disassemble('ㄳ'),
+			['ㄱ','ㅅ'],
+			"Hangul.disassemble('ㄳ')"
+		);
+		deepEqual(
+			Hangul.disassemble('ㅙ'),
+			['ㅗ','ㅐ'],
+			"Hangul.disassemble('ㅙ')"
+		);
 	});
 
 	test ('Hangul.assemble Tests', function(){
@@ -93,6 +103,56 @@ $(function(){
 			'뷁궬릪쯻튋',
 			"Hangul.assemble(['ㅂ','ㅜ','ㅔ','ㄹ','ㄱ','ㄱ','ㅜ','ㅔ','ㄹ','ㄹ','ㅡ','ㅣ','ㅍ','ㅉ','ㅡ','ㅣ','ㄹ','ㅂ','ㅌ','ㅜ','ㅣ','ㄹ','ㅂ'])"
 		);
+		deepEqual(
+			Hangul.assemble(['ㄱ','ㅅ']),
+			'ㄳ',
+			"Hangul.assemble(['ㄱ','ㅅ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅗ','ㅐ']),
+			'ㅙ',
+			"Hangul.assemble(['ㅗ','ㅐ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅈ','ㅅ','ㅏ']),
+			'ㅈ사',
+			"Hangul.assemble(['ㅈ','ㅅ','ㅏ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㄱ','ㅅ','ㄱ','ㅅ']),
+			'ㄳㄳ',
+			"Hangul.assemble(['ㄱ','ㅅ','ㄱ','ㅅ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅗ','ㅐ','ㅗ','ㅐ']),
+			'ㅙㅙ',
+			"Hangul.assemble(['ㅗ','ㅐ','ㅗ','ㅐ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅈ','ㅗ','ㅗ','ㅐ']),
+			'조ㅙ',
+			"Hangul.assemble(['ㅈ','ㅗ','ㅗ','ㅐ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅣ','ㅗ','ㅐ']),
+			'ㅣㅙ',
+			"Hangul.assemble(['ㅣ','ㅗ','ㅐ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅃ','ㅉ','ㅏ','ㄸ']),
+			'ㅃ짜ㄸ',
+			"Hangul.assemble(['ㅃ','ㅉ','ㅏ','ㄸ'])"
+		);
+		deepEqual(
+			Hangul.assemble(['ㅒ','ㅗ','ㅒ']),
+			'ㅒㅗㅒ',
+			"Hangul.assemble(['ㅒ','ㅗ','ㅒ'])"
+		);
+	
+	
+
+
+
 	});
 	
 	$('#test1').submit(function(){

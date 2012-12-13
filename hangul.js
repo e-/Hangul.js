@@ -212,7 +212,6 @@
 			,	stage = 0
 			,	complete_index = -1 //완성된 곳의 인덱스
 			,	previous_code
-			,	previous_previous_code
 			;
 
 		function _makeHangul(index){ // complete_index + 1부터 index까지를 greedy하게 한글로 만든다.
@@ -227,11 +226,20 @@
 			if (complete_index + 1 > index) {
 				return;
 			}
-
 			for (step = 1 ; ; step++) {
 				if (step === 1) {
 					cho = array[complete_index + step].charCodeAt(0);
-					if (!_isCho(cho)) {
+					if (_isJung(cho)) { // 첫번째 것이 모음이면 1) ㅏ같은 경우이거나 2) ㅙ같은 경우이다
+						if (complete_index + step + 1 <= index && _isJung(jung1 = array[complete_index + step + 1].charCodeAt(0))) { //다음것이 있고 모음이면 
+							result.push(String.fromCharCode(_isJungJoinable(cho, jung1)));
+							complete_index = index;
+							return;
+						} else {
+							result.push(array[complete_index + step])
+							complete_index = index;
+							return;
+						}
+					} else if (!_isCho(cho)) {
 						result.push(array[complete_index + step]);
 						complete_index = index;
 						return;
@@ -286,25 +294,21 @@
 				stage = 0;
 				continue;
 			}
+			//console.log(stage, array[i]);
 			if (stage == 0) { // 초성이 올 차례
 				if (_isCho(code)) { // 초성이 오면 아무 문제 없다.
 					stage = 1; 
-				} else { 
-					_makeHangul(i);
+				} else if (_isJung(code)) { 
+					// 중성이오면 ㅐ 또는 ㅘ 인것이다. 바로 구분을 못한다. 따라서 특수한 stage인 stage4로 이동
+					stage = 4;
 				}
 			} else if (stage == 1) { //중성이 올 차례
 				if (_isJung(code)) { //중성이 오면 문제없음 진행.
-					_makeHangul(i-2); // 만약 ㄻ이 왔고 이번에 ㅏ 가 온거라면 ㄹ마가 되어서 앞에 ㄹ을 완성해야한다. 만약 이렇지 않다면 _makeHangul함수는 아무 동작을 하지 않을 것이다.
 					stage = 2;
 				} else { //아니고 자음이오면 ㄻ같은 경우가 있고 ㄹㅋ같은 경우가 있다.
 					if (_isJongJoinable(previous_code, code)) { 
-						// 합쳐질 수 있다면 ㄻ 같은 경우인데 이 뒤에 모음이 와서 ㄹ마 가 될수도 있고 초성이 올 수도 있다. 따라서 섣불리 완성할 수 없다.
-						// 이 경우에는 여전히 중성이 올 차례이므로 stage = 1로 그대로 둔다. 그리고 실제로 중성이 왔을 때 i-2까지를 만듦으로써 처리한다.
-						// 만약 ㄺㅅ 처럼 자음이 오고 ㄳ로 합쳐질 수 있지만 그 앞에도 또 자음이와서 합치면 안될경우도 있다. 이 경우
-						if (_isCho(previous_previous_code)) { 
-							_makeHangul(i-1); // 완성해버리고
-							// 다시 모음이 올 차례다
-						}
+						// 합쳐질 수 있다면 ㄻ 같은 경우인데 이 뒤에 모음이 와서 ㄹ마 가 될수도 있고 초성이 올 수도 있다. 따라서 섣불리 완성할 수 없다. 이땐 stage5로 간다.
+						stage = 5;
 					} else { //합쳐질 수 없다면 앞 글자 완성 후 여전히 중성이 올 차례 
 						_makeHangul(i-1); 
 					}
@@ -316,9 +320,11 @@
 					if (_isJungJoinable(previous_code, code)) { //합칠 수 있으면 여전히 종성이 올 차례고 그대로 진행
 					} else { // 합칠 수 없다면 오타가 생긴 경우 
 						_makeHangul(i-1);
-						_makeHangul(i);
-						stage = 0;
+						stage = 4;
 					}
+				} else { // 받침이 안되는 자음이 오면 ㄸ 같은 이전까지 완성하고 다시시작
+					_makeHangul(i-1);
+					stage = 1;
 				}
 			} else if (stage == 3) { // 종성이 하나 온 상태.
 				if (_isJong(code)) { // 또 종성이면 합칠수 있는지 본다.
@@ -334,8 +340,27 @@
 					_makeHangul(i-2);
 					stage = 2;
 				}
+			} else if (stage == 4) { // 중성이 하나 온 상태
+				if (_isJung(code)) { //중성이 온 경우
+					if(_isJungJoinable(previous_code, code)) { //이전 중성과 합쳐질 수 있는 경우
+						_makeHangul(i);
+						stage = 0;
+					} else { //중성이 왔지만 못합치는 경우. ㅒㅗ 같은
+						_makeHangul(i-1);
+					}
+				} else { // 아니면 자음이 온 경우.
+					_makeHangul(i-1);
+					stage = 1;
+				}
+			} else if (stage == 5) { // 초성이 연속해서 두개 온 상태 ㄺ
+				if (_isJung(code)) { //이번에 중성이면 ㄹ가 
+					_makeHangul(i-2);
+					stage = 2;
+				} else { 
+					_makeHangul(i-1);
+					stage = 1;
+				}
 			}
-			previous_previous_code = previous_code;
 			previous_code = code;
 		}
 		_makeHangul(i-1);
