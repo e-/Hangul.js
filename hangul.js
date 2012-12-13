@@ -367,9 +367,27 @@
 		return result.join(''); 
 	};
 
+	var search = function(a, b){
+		var	ad = disassemble(a).join('')
+			,	bd = disassemble(b).join('');
+
+		return ad.indexOf(bd);
+	};
+	
+	function Searcher(string) {
+		this.string = string;
+		this.disassembled = disassemble(string).join('');
+	}
+
+	Searcher.prototype.search = function(string) { 
+		return disassemble(string).join('').indexOf(this.disassembled);
+	};
+
 	return {
 		disassemble: disassemble,
-		assemble: assemble
+		assemble: assemble,
+		search: search,
+		Searcher: Searcher
 	};
 })();
 
