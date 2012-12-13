@@ -387,7 +387,33 @@
 		disassemble: disassemble,
 		assemble: assemble,
 		search: search,
-		Searcher: Searcher
+		Searcher: Searcher,
+		isHangul: function(c){
+			if (typeof c === 'string')
+				c = c.charCodeAt(0);
+			return _isHangul(c);
+		},
+		isConsonant: function(c){
+			if (typeof c === 'string')
+				c = c.charCodeAt(0);
+			return (typeof _isConsonant(c)) !== 'undefined';
+		},
+		isVowel: function(c){
+			if (typeof c === 'string')
+				c = c.charCodeAt(0);
+			return _isJung(c);
+		},
+		isCho: function(c){
+			if (typeof c === 'string')
+				c = c.charCodeAt(0);
+			return _isCho(c);
+
+		},
+		isJong: function(c){
+			if (typeof c === 'string')
+				c = c.charCodeAt(0);
+			return _isJong(c);
+		}
 	};
 })();
 
