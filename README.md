@@ -111,3 +111,54 @@ searcher.search('달걀'); // 0
 searcher.search('달구지'); // 0
 searcher.search('달무리'); // -1
 ```
+
+### 기타 한글 체크 함수
+
+이하 함수들은 인자로 문자를 받습니다. 자바스크립트에서는 문자 타입이 없으므로 문자열로 대체합니다. 길이가 2 이상인 문자열의 경우 첫 한글자에 대해 판단합니다.
+
+#### Hangul.isHangul ( String ) => Boolean
+
+주어진 문자가 완성된 한글인지 아닌지 판단합니다. 완성된 한글이란 유니코드로 '가'(0xAC00) ~ '힣'(0xD7A3) 사이에 있는 문자를 말합니다. 'ㄱ', 'ㅙ' 등은 완성된 한글이 아닙니다.
+
+#### Hangul.isConsonant ( String ) => Boolean
+
+주어진 문자가 자음인지 판단합니다. 
+
+#### Hangul.isVowel ( String ) => Boolean
+
+주어진 문자가 모음인지 판단합니다.
+
+#### Hangul.isCho ( String ) => Boolean
+
+주어진 문자가 초성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 초성으로 쓰일 수 있지만 'ㄳ'는 초성으로 쓰일 수 없습니다.
+
+#### Hangul.isJong( String ) => Boolean
+
+주어진 문자가 종성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 종성으로 쓰일 수 있지만 'ㄸ'는 종성으로 쓰일 수 없습니다.
+
+## License
+
+(The MIT License)
+
+Copyright (c) 2012 Jaemin Jo
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
