@@ -3,7 +3,7 @@
  * https://github.com/e-/Hangul.js
  *
  * Copyright 2013, Jaemin Jo
- * under the GPL Version 3 license.
+ * under the MIT license.
  */
 
 ;var Hangul = (function(){
