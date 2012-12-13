@@ -195,7 +195,7 @@
 					result = result.concat(r);
 				}
 			} else {
-				result.push(string[i]);
+				result.push(string.charAt(i));
 			}
 		}
 		return result;
