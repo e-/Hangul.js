@@ -148,12 +148,56 @@ $(function(){
 			'ㅒㅗㅒ',
 			"Hangul.assemble(['ㅒ','ㅗ','ㅒ'])"
 		);
-	
-	
-
-
-
 	});
+
+	test ('Hangul.search Tests', function(){
+		equal(
+			Hangul.search('도우미', '도움'),
+			0,
+			"Hangul.search('도우미', '도움')"
+		);
+		equal(
+			Hangul.search('달걀', '닭'),
+			0,
+			"Hangul.search('달걀', '닭')"
+		);
+		equal(
+			Hangul.search('도우미', 'ㅜㅁ'),
+			3,
+			"Hangul.search('도우미', 'ㅜㅁ')"
+		);
+		equal(
+			Hangul.search('달맞이', 'ㄹ마'),
+			2,
+			"Hangul.search('달맞이', 'ㄹ마')"
+		);
+		equal(
+			Hangul.search('달맞이', 'ㅁㅈ'),
+			-1,
+			"Hangul.search('달맞이', 'ㅁㅈ')"
+		);
+	}) ;
+
+	test ('Hangul.Searcher Tests', function(){
+		var searcher = new Hangul.Searcher('닭');
+
+		equal(
+			searcher.search('달걀'),
+			0,
+			"searcher.search('달걀')"
+		);
+		equal(
+			searcher.search('달구지'),
+			0,
+			"searcher.search('달구지')"
+		);
+		equal(
+			searcher.search('닮은'),
+			-1,
+			"searcher.search('닮은')"
+		);
+	}) ;
+	
 	
 	$('#test1').submit(function(){
 		var str = $('#str').val(),
