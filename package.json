@@ -13,5 +13,5 @@
     "type": "git",
     "url": "git://github.com/e-/Hangul.js.git"
   },
-  "main": "Hangul.js"
+  "main": "hangul.js"
 }
