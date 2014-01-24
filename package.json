@@ -1,0 +1,17 @@
+{
+  "name": "hangul-js",
+  "version": "0.1.0",
+  "description": "Hangul (Korean alphabet) manipulating library",
+  "homepage": "https://github.com/e-/Hangul.js",
+  "author": "Jaemin Jo",
+  "keywords": [
+    "hangul",
+    "korean",
+    "alphabet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/e-/Hangul.js.git"
+  },
+  "main": "Hangul.js"
+}

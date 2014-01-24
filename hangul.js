@@ -2,11 +2,13 @@
  * Hangul.js
  * https://github.com/e-/Hangul.js
  *
- * Copyright 2012, Jaemin Jo
+ * Copyright 2014, Jaemin Jo
  * under the MIT license.
  */
 
-;var Hangul = (function(){
+(function(){
+  'use strict';
+
 	var CHO = [
 				'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
 				'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
@@ -226,7 +228,7 @@
 			if (complete_index + 1 > index) {
 				return;
 			}
-			for (step = 1 ; ; step++) {
+			for (var step = 1 ; ; step++) {
 				if (step === 1) {
 					cho = array[complete_index + step].charCodeAt(0);
 					if (_isJung(cho)) { // 첫번째 것이 모음이면 1) ㅏ같은 경우이거나 2) ㅙ같은 경우이다
@@ -383,7 +385,7 @@
 		return disassemble(string).join('').indexOf(this.disassembled);
 	};
 
-	return {
+  var hangul = {
 		disassemble: disassemble,
 		assemble: assemble,
 		search: search,
@@ -415,5 +417,15 @@
 			return _isJong(c);
 		}
 	};
+
+  if (typeof define == 'function' && define.amd) {
+    define(function(){
+      return hangul;
+    });
+  } else if (typeof module !== 'undefined') {
+    module.exports = hangul;
+  } else {
+    window.Hangul = hangul;
+  };
 })();
 
