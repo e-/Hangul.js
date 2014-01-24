@@ -4,20 +4,28 @@ Hangul.js는 한글로 이루어진 문장의 자음과 모음을 분리하는 �
 
 ## 설치
 
-웹 페이지에 Hangul.js 파일을 삽입합니다.
+웹 페이지에서 사용하려면 hangul.js 파일을 `<script>`태그를 이용하여 삽입합니다.
 ```html
-<script src="Hangul.js" type="text/javascript"></script>
+<script src="hangul.js" type="text/javascript"></script>
+```
+node.js와 함께 사용하려면 npm을 이용하여 설치합니다.
+```bash
+npm install hangul-js
 ```
 
-## 사용법
+## 사용방법
 
-### Hangul Namespace
+웹 페이지에서는 Hangul이라는 객체를 통해 접근할 수 있습니다.
+```js
+Hangul // window.Hangul
+```
+node.js에서는 `require` 키워드를 통해 불러올 수 있습니다.
+```js
+var Hangul = require('hangul-js');
+```
 
-Hangul.js 스크립트를 실행하면 전역 네임스페이스에 Hangul이라는 객체가 노출됩니다.
-
-### Hangul.disassemble ( String ) => Array
-
-문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
+### Hangul.disassemble
+`Hangul.disassemble(string)`은 문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
 
 ```js
 Hangul.disassemble('가나다'); // ['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']
@@ -43,9 +51,9 @@ Hangul.disassemble('ㅚ'); // ['ㅗ','ㅣ']
 
 두벌식 키보드로 주어진 문자열을 입력할 때 누르는 키들의 배열이라고 생각하면 쉽습니다.
 
-### Hangul.assemble ( Array ) => String
+### Hangul.assemble
 
-한글 자음/모음들의 배열을 인자로 받아 조립한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
+`Hangul.assemble(array)`는 한글 자음/모음들의 배열을 인자로 받아 이를 조합한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
 
 ```js
 Hangul.assemble(['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']); // '가나다'
@@ -69,9 +77,9 @@ Hangul.assemble(['ㄹ','ㅂ','ㅅ']); // 'ㄼㅅ'
 Hangul.assemble(Hangul.disassemble('옽ㅏ')); // '오타' ('옽ㅏ' 가 아님)
 ```
 
-### Hangul.search ( String a, String b ) => Number
+### Hangul.search
 
-a문자열이 b문자열을 포함하는지 검사합니다. 이때 'a문자열이 b문자열을 포함한다'는 '두벌식 키보드 기준으로 a문자열을 입력할 때 누르는 키들의 배열이 b문자열을 입력할 때 누르는 키들의 배열을 포함한다'로 정의합니다. 반환값이 0보다 크거나 같다면 포함합니다.
+`Hangul.search(string a, string b)`는 a문자열이 b문자열을 포함하는지 검사합니다. 이때 'a문자열이 b문자열을 포함한다'는 '두벌식 키보드 기준으로 a문자열을 입력할 때 누르는 키들의 배열이 b문자열을 입력할 때 누르는 키들의 배열을 포함한다'로 정의합니다. 반환값이 0보다 크거나 같다면 포함합니다.
 
 ```js
 Hangul.search('달걀','닭'); // 0
@@ -112,27 +120,27 @@ searcher.search('달구지'); // 0
 searcher.search('달무리'); // -1
 ```
 
-### 기타 한글 체크 함수
+### 기타 한글 관련 함수
 
 이하 함수들은 인자로 문자를 받습니다. 자바스크립트에서는 문자 타입이 없으므로 문자열로 대체합니다. 길이가 2 이상인 문자열의 경우 첫 한글자에 대해 판단합니다.
 
-#### Hangul.isHangul ( String ) => Boolean
+#### Hangul.isHangul
 
 주어진 문자가 완성된 한글인지 아닌지 판단합니다. 완성된 한글이란 유니코드로 '가'(0xAC00) ~ '힣'(0xD7A3) 사이에 있는 문자를 말합니다. 'ㄱ', 'ㅙ' 등은 완성된 한글이 아닙니다.
 
-#### Hangul.isConsonant ( String ) => Boolean
+#### Hangul.isConsonant
 
 주어진 문자가 자음인지 판단합니다. 
 
-#### Hangul.isVowel ( String ) => Boolean
+#### Hangul.isVowel
 
 주어진 문자가 모음인지 판단합니다.
 
-#### Hangul.isCho ( String ) => Boolean
+#### Hangul.isCho
 
 주어진 문자가 초성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 초성으로 쓰일 수 있지만 'ㄳ'는 초성으로 쓰일 수 없습니다.
 
-#### Hangul.isJong( String ) => Boolean
+#### Hangul.isJong
 
 주어진 문자가 종성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 종성으로 쓰일 수 있지만 'ㄸ'는 종성으로 쓰일 수 없습니다.
 
@@ -162,3 +170,4 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+
