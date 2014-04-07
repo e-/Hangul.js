@@ -116,7 +116,7 @@
 	COMPLEX_CONSONANTS_HASH = _makeComplexHash(COMPLEX_CONSONANTS);
 	COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
 
-	function _isConsonant(c){
+	function _isConsonant(c) {
 		return CONSONANTS_HASH[c];
 	}
 
@@ -201,6 +201,36 @@
 			}
 		}
 		return result;
+	};
+
+    // 주어진 문자열이 자음으로 끝나는지 여부를 반환합니다.
+    // 만약 문자열에 자음이 하나만 있을 경우 자음으로 끝나는 것으로 간주합니다.
+    // 마지막 글자가 한글이 아닐 경우 자음이 아닌 것으로 간주합니다.
+    // 예:
+    // endsWithConsonant('ㄱ')   // true
+    // endsWithConsonant('가')   // false
+    // endsWithConsonant('ㅏ')   // false
+    // endsWithConsonant('각')   // true
+    // endsWithConsonant('가각')   // true
+    // endsWithConsonant('abc각')   // true
+    // endsWithConsonant('abc')   // false
+	var endsWithConsonant = function (string) {
+	    if (typeof string === 'object') {
+	        string = string.join('');
+	    }
+
+	    var code = string.charCodeAt(string.length - 1);
+
+	    if (_isHangul(code)) { // 완성된 한글이면
+	        code -= HANGUL_OFFSET;
+	        var jong = code % 28;
+	        if (jong > 0) {
+	            return true;
+	        }
+	    } else if ((typeof _isConsonant(code)) !== 'undefined') { //자음이면
+	        return true;
+	    }
+	    return false;
 	};
 
 	var assemble = function(array){
@@ -387,6 +417,7 @@
 
   var hangul = {
 		disassemble: disassemble,
+		endsWithConsonant: endsWithConsonant,
 		assemble: assemble,
 		search: search,
 		Searcher: Searcher,

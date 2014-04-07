@@ -314,6 +314,54 @@ $(function(){
 			"Hangul.isJong('a')"
 		);
 	});
+
+	test('Hangul.endsWithConsonant Tests', function () {
+	    equal(
+            Hangul.endsWithConsonant('ㄱ'),
+            true,
+            "Hangul.endsWithConsonant('ㄱ')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('가'),
+            false,
+            "Hangul.endsWithConsonant('가')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('ㅏ'),
+            false,
+            "Hangul.endsWithConsonant('ㅏ')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('각'),
+            true,
+            "Hangul.endsWithConsonant('각')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('가각'),
+            true,
+            "Hangul.endsWithConsonant('가각')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('abc각'),
+            true,
+            "Hangul.endsWithConsonant('abc각')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('abc'),
+            false,
+            "Hangul.endsWithConsonant('abc')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('各'),
+            false,
+            "Hangul.endsWithConsonant('各')"
+        );
+	    equal(
+            Hangul.endsWithConsonant('!@#'),
+            false,
+            "Hangul.endsWithConsonant('!@#')"
+        );
+	});
 	
 	
 	$('#test1').submit(function(){
