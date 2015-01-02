@@ -1,6 +1,6 @@
 {
   "name": "hangul-js",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Hangul (Korean alphabet) manipulating library",
   "homepage": "https://github.com/e-/Hangul.js",
   "author": "Jaemin Jo",
@@ -13,5 +13,10 @@
     "type": "git",
     "url": "git://github.com/e-/Hangul.js.git"
   },
-  "main": "hangul.js"
+  "main": "hangul.js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.7.0"
+  }
 }

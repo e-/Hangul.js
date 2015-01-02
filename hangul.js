@@ -153,7 +153,8 @@
         cho,
         jung,
         jong,
-        code 
+        code,
+        r
       ;
 
     for (var i = 0; i < length; i++) {
@@ -177,7 +178,6 @@
           }
         }
       } else if (_isConsonant(code)) { //자음이면
-        var r;
         if (_isCho(code)) {
           r = CHO[CHO_HASH[code]];
         } else {
@@ -189,7 +189,7 @@
           result = result.concat(r);
         }
       } else if (_isJung(code)) {
-        var r = JUNG[JUNG_HASH[code]];
+        r = JUNG[JUNG_HASH[code]];
         if (typeof r == 'string') {
           result.push(r);
         } else { 
@@ -236,7 +236,7 @@
               complete_index = index;
               return;
             } else {
-              result.push(array[complete_index + step])
+              result.push(array[complete_index + step]);
               complete_index = index;
               return;
             }
@@ -296,7 +296,7 @@
         continue;
       }
       //console.log(stage, array[i]);
-      if (stage == 0) { // 초성이 올 차례
+      if (stage === 0) { // 초성이 올 차례
         if (_isCho(code)) { // 초성이 오면 아무 문제 없다.
           stage = 1; 
         } else if (_isJung(code)) { 
@@ -446,6 +446,6 @@
     module.exports = hangul;
   } else {
     window.Hangul = hangul;
-  };
+  }
 })();
 
