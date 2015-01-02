@@ -2,7 +2,7 @@
  * Hangul.js
  * https://github.com/e-/Hangul.js
  *
- * Copyright 2014, Jaemin Jo
+ * Copyright 2015, Jaemin Jo
  * under the MIT license.
  */
 
