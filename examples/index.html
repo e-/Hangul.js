@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hangul.js 예제</title>
+    <script src="../hangul.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <style>
+      section{padding: 20px 0px;}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hangul.js 예제</h1>
+      <p>이 예제는 입력으로 주어진 문장을 자음 및 모음으로 분리하거나 자음 및 모음을 완성된 문장으로 바꿉니다.</p>
+      <section>
+      <form>
+        <div class="form-group">
+          <label for="input">입력 문장 (자음 및 모음으로 분리)</label>
+          <textarea class="form-control" id="input" placeholder="아버지가 방에 들어가신다">아버지가 방에 들어가신다</textarea>
+        </div>
+      </form>
+      <label for="output">출력 문장</label>
+      <div class="form-control" id="output"></div>
+      </section>
+      <section>
+      <form>
+        <div class="form-group">
+          <label for="input">입력 문장 (자음 및 모음을 조합)</label>
+          <textarea class="form-control" id="input2" placeholder="ㅇㅏㅂㅓㅈㅣㄱㅏ ㅂㅏㅇㅇㅔ ㄷㅡㄹㅇㅓㄱㅏㅅㅣㄴㄷㅏ">ㅇㅏㅂㅓㅈㅣㄱㅏ ㅂㅏㅇㅇㅔ ㄷㅡㄹㅇㅓㄱㅏㅅㅣㄴㄷㅏ</textarea>
+        </div>
+      </form>
+      <label for="output">출력 문장</label>
+      <div class="form-control" id="output2"></div>
+      </section>
+    </div>
+
+<script>
+  function ready(fn) {
+    if (document.readyState != 'loading'){
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  var $ = document.querySelector.bind(document);
+
+  ready(function(){
+    var h1, h2;
+    $('#input').addEventListener('keyup', h1 = function(){
+      var input = this.value;
+      $('#output').innerHTML = Hangul.disassemble(input).join('');
+    });
+
+    $('#input2').addEventListener('keyup', h2 = function(){
+      var input = this.value;
+      $('#output2').innerHTML = Hangul.assemble(input);
+    });
+
+    h1.bind($('#input'))();
+    h2.bind($('#input2'))();
+  });
+</script>
+
+  </body>
+</html>
