@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hangul.js 된소리 예제</title>
+    <script src="../hangul.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hangul.js 된소리 예제</h1>
+      <p>이 예제는 입력으로 주어진 문장에 있는 예사소리와, 거센소리를 모두 된소리로 바꾼 문장을 보여줍니다.</p>
+      <table class="table table-stripped table-bordered">
+        <tr>
+          <th>입력</th>
+          <th>출력</th>
+        </tr>
+        <tr><td>ㄱ, ㅋ</td><td>ㄲ</td></tr>
+        <tr><td>ㄷ, ㅌ</td><td>ㄸ</td></tr>
+        <tr><td>ㅂ, ㅍ</td><td>ㅃ</td></tr>
+        <tr><td>ㅅ</td><td>ㅆ</td></tr>
+        <tr><td>ㅈ, ㅊ</td><td>ㅉ</td></tr>
+      </table>
+      
+      <ul>
+        <li>가나다라마바사아자차카타파하 &#8594; 까나따라마빠싸아짜짜까따빠하</li>
+        <li>도레미파솔라시도 &#8594; 또레미빠쏠라씨또</li>
+      </ul>
+
+      <form>
+        <div class="form-group">
+          <label for="input">입력 문장</label>
+          <textarea class="form-control" id="input" placeholder="아버지가 방에 들어가신다"></textarea>
+        </div>
+      </form>
+      <label for="output">출력 문장</label>
+      <div class="form-control" id="output"></div>
+      <h2>코드</h2>
+      <div id="code">
+        <pre>
+function stronger(x){
+  if(x == 'ㄱ' || x == 'ㅋ') return 'ㄲ';
+  if(x == 'ㄷ' || x == 'ㅌ') return 'ㄸ';
+  if(x == 'ㅂ' || x == 'ㅍ') return 'ㅃ';
+  if(x == 'ㅅ') return 'ㅆ';
+  if(x == 'ㅈ' || x == 'ㅊ') return 'ㅉ';
+  return x;
+}
+
+$('#output').innerHTML = Hangul.assemble(Hangul.disassemble(input).map(stronger));</pre>
+      </div>
+    </div>
+
+<script>
+  function ready(fn) {
+    if (document.readyState != 'loading'){
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  function stronger(x){
+    if(x == 'ㄱ' || x == 'ㅋ') return 'ㄲ';
+    if(x == 'ㄷ' || x == 'ㅌ') return 'ㄸ';
+    if(x == 'ㅂ' || x == 'ㅍ') return 'ㅃ';
+    if(x == 'ㅅ') return 'ㅆ';
+    if(x == 'ㅈ' || x == 'ㅊ') return 'ㅉ';
+    return x;
+  }
+
+  var $ = document.querySelector.bind(document);
+
+  ready(function(){
+    $('#input').addEventListener('keyup', function(){
+      var input = this.value;
+      $('#output').innerHTML = Hangul.assemble(Hangul.disassemble(input).map(stronger));
+    });
+  });
+</script>
+
+  </body>
+</html>
