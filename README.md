@@ -150,6 +150,28 @@ searcher.search('달무리'); // -1
 
 주어진 문자가 자음으로 끝나는지 판단합니다. 한글이 아닌 경우는 자음이 아니라고 간주합니다.
 
+## 예제
+
+[여기](http://e-.github.io/Hangul.js/examples/stronger.html)에 주어진 문장에서 예사소리(ㄱ, ㄷ, ㅂ, ㅅ, ㅈ)와 거센소리(ㅋ, ㅌ, ㅍ, ㅊ)를 된소리(ㄲ, ㄸ, ㅃ, ㅆ, ㅉ)로 바꾸는 예제가 준비되어 있습니다.
+
+핵심 코드는 다음과 같습니다.
+
+```js
+var input = '아버지가 방에 들어가신다'
+
+function stronger(x){
+  if(x == 'ㄱ' || x == 'ㅋ') return 'ㄲ';
+  if(x == 'ㄷ' || x == 'ㅌ') return 'ㄸ';
+  if(x == 'ㅂ' || x == 'ㅍ') return 'ㅃ';
+  if(x == 'ㅅ') return 'ㅆ';
+  if(x == 'ㅈ' || x == 'ㅊ') return 'ㅉ';
+  return x;
+}
+
+console.log(Hangul.assemble(Hangul.disassemble(input).map(stronger))); 
+// 아뻐찌까 빵에 뜰어까씬따
+```
+
 ## License
 
 (The MIT License)
