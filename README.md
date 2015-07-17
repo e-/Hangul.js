@@ -172,6 +172,10 @@ console.log(Hangul.assemble(Hangul.disassemble(input).map(stronger)));
 // 아뻐찌까 빵에 뜰어까씬따
 ```
 
+## 테스트 및 기여
+
+코드를 수정하셨다면 꼭 `grunt` 명령어를 통해 테스트를 수행해 주세요. 현재 마스터 브랜치에 있는 코드의 테스트 결과는 [여기](http://e-.github.io/Hangul.js/test/)서 보실 수 있습니다.
+
 ## License
 
 (The MIT License)
