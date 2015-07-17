@@ -4,27 +4,45 @@
 
 Hangul.js는 한글로 이루어진 문장의 자음과 모음을 분리하는 자바스크립트 라이브러리입니다. 이 라이브러리를 이용하여 한글검색, 초성검색 등을 할 수 있습니다. 
 
-## 설치
+## 설치 및 사용방법
+
+### 일반 웹 페이지
 
 웹 페이지에서 사용하려면 hangul.js 파일을 `<script>`태그를 이용하여 삽입합니다.
 ```html
 <script src="hangul.js" type="text/javascript"></script>
 ```
-node.js와 함께 사용하려면 npm을 이용하여 설치합니다.
-```bash
-npm install hangul-js
-```
-
-## 사용방법
-
-웹 페이지에서는 Hangul이라는 객체를 통해 접근할 수 있습니다.
+자바스크립트 코드에서 전역에 노출된 Hangul이라는 객체를 통해 접근할 수 있습니다.
 ```js
 Hangul // window.Hangul
 ```
-node.js에서는 `require` 키워드를 통해 불러올 수 있습니다.
+
+### require.js
+
+require.js와 함께 사용하려면 우선 hangul.js 파일을 다운로드 받은 후 아래처럼 `path`에 등록한 후 불러옵니다.
+```js
+requirejs.config({
+  paths: {
+    Hangul: 'path/to/hangul (without extension!)'
+  }
+});
+
+requirejs(['Hangul'], function(Hangul){
+  // Hangul.assemble(...);
+});
+```
+
+### node.js 
+
+node.js와 함께 사용하려면 npm을 이용하여 설치하고 `require`키워드를 통해 불러옵니다.
+```bash
+npm install hangul-js
+```
 ```js
 var Hangul = require('hangul-js');
 ```
+
+## 명세
 
 ### Hangul.disassemble
 `Hangul.disassemble(string)`은 문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
