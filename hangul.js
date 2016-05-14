@@ -380,7 +380,38 @@
 
     return ad.indexOf(bd);
   };
+ 
+  var rangeSearch = function(haystack, needle){
+    var hex = disassemble(haystack).join(''), 
+        nex = disassemble(needle).join(''),
+        grouped = disassemble(haystack, true),
+        re = new RegExp(nex, 'gi'),
+        indices = [],
+        result;
+
+    while((result = re.exec(hex))) {
+      indices.push(result.index);
+    }
   
+    function findStart(index) {
+      for(var i = 0, length = 0; i < grouped.length; ++i) {
+        length += grouped[i].length;
+        if(index < length) return i;
+      }
+    }
+    
+    function findEnd(index) {
+      for(var i = 0, length = 0; i < grouped.length; ++i) {
+        length += grouped[i].length;
+        if(index + nex.length <= length) return i;
+      }
+    }
+
+    return indices.map(function(i) {
+      return [findStart(i), findEnd(i)];
+    });
+  };
+
   function Searcher(string) {
     this.string = string;
     this.disassembled = disassemble(string).join('');
@@ -415,6 +446,7 @@
     assemble: assemble,
     a: assemble, // alias for assemble
     search: search,
+    rangeSearch: rangeSearch,
     Searcher: Searcher,
     endsWithConsonant: endsWithConsonant,
     isHangul: function(c){

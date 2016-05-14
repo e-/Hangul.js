@@ -451,6 +451,46 @@ $(function(){
       "Hangul.disassemble('ㅙ', true)"
     );
   });
+
+  QUnit.test('Ranges() tests', function(){
+    var text = '간장공장공장장';
+
+    deepEqual(
+      Hangul.rangeSearch(text, '갠'),
+      [],
+      "Hangul.ranges('" + text + "', '갠')"
+    );
+
+    deepEqual(
+      Hangul.rangeSearch(text, '간'),
+      [[0, 0]],
+      "Hangul.ranges('" + text + "', '간')"
+    );
+
+    deepEqual(
+      Hangul.rangeSearch(text, '장'),
+      [[1, 1], [3, 3], [5, 5], [6, 6]],
+      "Hangul.ranges('" + text + "', '장')"
+    );
+
+    deepEqual(
+      Hangul.rangeSearch(text, '공장'),
+      [[2, 3], [4, 5]],
+      "Hangul.ranges('" + text + "', '공장')"
+    );
+
+    deepEqual(
+      Hangul.rangeSearch(text, 'ㅏㅇㄱ'),
+      [[1, 2], [3, 4]],
+      "Hangul.ranges('" + text + "', 'ㅏㅇㄱ')"
+    );
+
+    deepEqual(
+      Hangul.rangeSearch(text, 'ㅇ공ㅈ'),
+      [[1, 3], [3, 5]],
+      "Hangul.ranges('" + text + "', 'ㅇ공ㅈ')"
+    );
+  });
  
   $('#test1').submit(function(){
     var str = $('#str').val(),
