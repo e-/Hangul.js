@@ -44,8 +44,8 @@ var Hangul = require('hangul-js');
 
 ## 명세
 
-### Hangul.disassemble
-`Hangul.disassemble(string)`은 문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
+### Hangul.disassemble (alias `Hangul.d`)
+`Hangul.disassemble(string)`은 문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.d`처럼 짧은 이름으로 사용할 수도 있습니다.
 
 ```js
 Hangul.disassemble('가나다'); // ['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']
@@ -71,9 +71,9 @@ Hangul.disassemble('ㅚ'); // ['ㅗ','ㅣ']
 
 두벌식 키보드로 주어진 문자열을 입력할 때 누르는 키들의 배열이라고 생각하면 쉽습니다.
 
-### Hangul.assemble
+### Hangul.assemble (alias `Hangul.a`)
 
-`Hangul.assemble(array)`는 한글 자음/모음들의 배열을 인자로 받아 이를 조합한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다.
+`Hangul.assemble(array)`는 한글 자음/모음들의 배열을 인자로 받아 이를 조합한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.a`처럼 짧은 이름으로 사용할 수도 있습니다.
 
 ```js
 Hangul.assemble(['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']); // '가나다'
@@ -94,7 +94,7 @@ Hangul.assemble(['ㄹ','ㅂ','ㅅ']); // 'ㄼㅅ'
 `Hangul.disassemble` 함수와 역함수 관계가 아닙니다. 
 
 ```js
-Hangul.assemble(Hangul.disassemble('옽ㅏ')); // '오타' ('옽ㅏ' 가 아님)
+Hangul.a(Hangul.d('옽ㅏ')); // '오타' ('옽ㅏ' 가 아님)
 ```
 
 ### Hangul.search
