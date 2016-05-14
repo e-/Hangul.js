@@ -45,7 +45,7 @@ var Hangul = require('hangul-js');
 ## 명세
 
 ### Hangul.disassemble (alias `Hangul.d`)
-`Hangul.disassemble(string)`은 문자열을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.d`처럼 짧은 이름으로 사용할 수도 있습니다.
+`Hangul.disassemble(string, grouped = false)`은 문자열 `string`을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.d`처럼 짧은 이름으로 사용할 수도 있습니다.
 
 ```js
 Hangul.disassemble('가나다'); // ['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']
@@ -67,6 +67,13 @@ Hangul.disassemble('ㄲ'); // ['ㄲ']
 Hangul.disassemble('ㄳ'); // ['ㄱ','ㅅ']
 
 Hangul.disassemble('ㅚ'); // ['ㅗ','ㅣ']
+```
+
+추가적으로 `grouped` 옵션을 `true`로 설정하여 문자열의 각 글자별로 따로 분리할 수 있습니다.
+
+```js
+Hangul.d('매드캣MK2'); 
+// [['ㅁ', 'ㅐ'], ['ㄷ', 'ㅡ'], ['ㅋ', 'ㅐ', 'ㅅ'], ['M'], ['K'], ['2']]
 ```
 
 두벌식 키보드로 주어진 문자열을 입력할 때 누르는 키들의 배열이라고 생각하면 쉽습니다.

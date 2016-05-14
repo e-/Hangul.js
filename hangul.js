@@ -142,7 +142,7 @@
     return COMPLEX_CONSONANTS_HASH[a] && COMPLEX_CONSONANTS_HASH[a][b] ? COMPLEX_CONSONANTS_HASH[a][b] : false;
   }
 
-  var disassemble = function(string){
+  var disassemble = function(string, grouped){
     if (typeof string === 'object') {
       string = string.join('');
     }
@@ -157,23 +157,25 @@
       ;
 
     for (var i = 0; i < length; i++) {
+      var temp = [];
+
       code = string.charCodeAt(i);
       if (_isHangul(code)) { // 완성된 한글이면
         code -= HANGUL_OFFSET;
         jong = code % 28;
         jung = (code - jong) / 28 % 21;
         cho = parseInt((code - jong) / 28 / 21);
-        result.push(CHO[cho]);
+        temp.push(CHO[cho]);
         if (typeof JUNG[jung] === 'object') {
-          result = result.concat(JUNG[jung]);
+          temp = temp.concat(JUNG[jung]);
         } else {
-          result.push(JUNG[jung]);
+          temp.push(JUNG[jung]);
         }
         if (jong > 0) {
           if(typeof JONG[jong] === 'object') {
-            result = result.concat(JONG[jong]);
+            temp = temp.concat(JONG[jong]);
           } else {
-            result.push(JONG[jong]);
+            temp.push(JONG[jong]);
           }
         }
       } else if (_isConsonant(code)) { //자음이면
@@ -182,22 +184,26 @@
         } else {
           r = JONG[JONG_HASH[code]];
         }
-        if (typeof r == 'string') {
-          result.push(r);
+        if (typeof r === 'string') {
+          temp.push(r);
         } else {
-          result = result.concat(r);
+          temp = temp.concat(r);
         }
       } else if (_isJung(code)) {
         r = JUNG[JUNG_HASH[code]];
-        if (typeof r == 'string') {
-          result.push(r);
+        if (typeof r === 'string') {
+          temp.push(r);
         } else { 
-          result = result.concat(r);
+          temp = temp.concat(r);
         }
       } else {
-        result.push(string.charAt(i));
+        temp.push(string.charAt(i));
       }
+      
+      if(grouped) result.push(temp);
+      else result = result.concat(temp);
     }
+
     return result;
   };
   

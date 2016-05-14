@@ -393,9 +393,65 @@ $(function(){
       'Alias for Hangul.disassemble'
     );
   });
+
+  QUnit.test('Grouped flag', function(){
+    deepEqual(
+      Hangul.disassemble('가나다', true),
+      [['ㄱ','ㅏ'], ['ㄴ','ㅏ'], ['ㄷ','ㅏ']],
+      'Hangul.disassemble(\'가나다\', true) - 기본동작'
+    );
+    deepEqual(
+      Hangul.disassemble('비행', true),
+      [['ㅂ','ㅣ'], ['ㅎ','ㅐ','ㅇ']],
+      'Hangul.disassemble(\'비행\', true) - 받침'
+    );
+    deepEqual(
+      Hangul.disassemble('쓸다', true),
+      [['ㅆ','ㅡ','ㄹ'], ['ㄷ','ㅏ']],
+      'Hangul.disassemble(\'쓸다\', true) - 초성에 쌍자음'
+    );
+    deepEqual(
+      Hangul.disassemble('의사', true),
+      [['ㅇ','ㅡ','ㅣ'], ['ㅅ','ㅏ']],
+      'Hangul.disassemble(\'의사\', true) - 중성에 복합모음'
+    );
+    deepEqual(
+      Hangul.disassemble('짧은', true),
+      [['ㅉ','ㅏ','ㄹ','ㅂ'], ['ㅇ','ㅡ','ㄴ']],
+      'Hangul.disassemble(\'짧은\', true) - 종성에 복합자음'
+    );
+    deepEqual(
+      Hangul.disassemble('닭고기', true),
+      [['ㄷ','ㅏ','ㄹ','ㄱ'], ['ㄱ','ㅗ'], ['ㄱ','ㅣ']],
+      'Hangul.disassemble(\'닭고기\', true)'
+    );
+    deepEqual(
+      Hangul.disassemble('옽ㅏ', true),
+      [['ㅇ','ㅗ','ㅌ'], ['ㅏ']],
+      'Hangul.disassemble(\'옽ㅏ\', true)'
+    );
+    deepEqual(
+      Hangul.disassemble('AB삵e$@%2s낄캌ㅋ', true),
+      [['A'], ['B'], ['ㅅ','ㅏ','ㄹ','ㄱ'], ['e'], ['$'], ['@'], ['%'], ['2'], ['s'], ['ㄲ','ㅣ','ㄹ'], ['ㅋ','ㅏ','ㅋ'], ['ㅋ']],
+      'Hangul.disassemble(\'AB삵e$@%2s낄캌ㅋ\', true)'
+    );
+    deepEqual(
+      Hangul.disassemble('뷁궬릪쯻튋', true),
+      [['ㅂ','ㅜ','ㅔ','ㄹ','ㄱ'], ['ㄱ','ㅜ','ㅔ','ㄹ'], ['ㄹ','ㅡ','ㅣ','ㅍ'], ['ㅉ','ㅡ','ㅣ','ㄹ','ㅂ'], ['ㅌ','ㅜ','ㅣ','ㄹ','ㅂ']],
+      'Hangul.disassemble(\'뷁궬릪쮧틟\', true)'
+    );
+    deepEqual(
+      Hangul.disassemble('ㄳ', true),
+      [['ㄱ','ㅅ']],
+      "Hangul.disassemble('ㄳ', true)"
+    );
+    deepEqual(
+      Hangul.disassemble('ㅙ', true),
+      [['ㅗ','ㅐ']],
+      "Hangul.disassemble('ㅙ', true)"
+    );
+  });
  
- 
-  
   $('#test1').submit(function(){
     var str = $('#str').val(),
         result1 = Hangul.disassemble(str),
