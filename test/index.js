@@ -60,7 +60,7 @@ $(function(){
     );
   });
 
-  test ('Hangul.assemble Tests', function(){
+  QUnit.test ('Hangul.assemble Tests', function(){
     equal(
       Hangul.assemble(['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']),
       '가나다',
@@ -153,7 +153,7 @@ $(function(){
     );
   });
 
-  test ('Hangul.search Tests', function(){
+  QUnit.test ('Hangul.search Tests', function(){
     equal(
       Hangul.search('도우미', '도움'),
       0,
@@ -181,7 +181,7 @@ $(function(){
     );
   }) ;
 
-  test ('Hangul.Searcher Tests', function(){
+  QUnit.test ('Hangul.Searcher Tests', function(){
     var searcher = new Hangul.Searcher('닭');
 
     equal(
@@ -201,7 +201,7 @@ $(function(){
     );
   });
 
-  test ('Hangul Check Tests', function(){
+  QUnit.test ('Hangul Check Tests', function(){
     equal(
       Hangul.isHangul('한'),
       true,
@@ -318,7 +318,7 @@ $(function(){
     );
   });
 
-  test('Hangul.endsWithConsonant Tests', function () {
+  QUnit.test('Hangul.endsWithConsonant Tests', function () {
     equal(
       Hangul.endsWithConsonant('ㄱ'),
       true,
@@ -366,7 +366,7 @@ $(function(){
     );
   });
 
-  test('Hangul.assemble and Hangul.disassemble on all Hangul characters', function(){
+  QUnit.test('Hangul.assemble and Hangul.disassemble on all Hangul characters', function(){
     equal(
       allCharacters.length,
       11172,
@@ -379,8 +379,22 @@ $(function(){
       "Hangul.assemble(Hangul.disassemble(allCharacters)) == allCharacters"
     );
   });
+
+  QUnit.test('Aliases', function(){
+    equal(
+      Hangul.assemble,
+      Hangul.a,
+      'Alias for Hangul.assemble'
+    );
+
+    equal(
+      Hangul.disassemble,
+      Hangul.d,
+      'Alias for Hangul.disassemble'
+    );
+  });
  
-  
+ 
   
   $('#test1').submit(function(){
     var str = $('#str').val(),

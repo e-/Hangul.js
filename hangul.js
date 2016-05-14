@@ -2,7 +2,7 @@
  * Hangul.js
  * https://github.com/e-/Hangul.js
  *
- * Copyright 2015, Jaemin Jo
+ * Copyright 2016, Jaemin Jo
  * under the MIT license.
  */
 
@@ -77,7 +77,6 @@
       COMPLEX_CONSONANTS_HASH,
       COMPLEX_VOWELS_HASH
     ;
-
 
   function _makeHash(array){
     var length = array.length,
@@ -406,7 +405,9 @@
 
   var hangul = {
     disassemble: disassemble,
+    d: disassemble, // alias for disassemble
     assemble: assemble,
+    a: assemble, // alias for assemble
     search: search,
     Searcher: Searcher,
     endsWithConsonant: endsWithConsonant,
