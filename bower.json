@@ -1,0 +1,27 @@
+{
+  "name": "hangul-js",
+  "description": "A simple library for manipulating Hangul (Korean alphabet)",
+  "main": "hangul.js",
+  "authors": [
+    "Jaemin Jo"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "hangul",
+    "korean",
+    "alphabet"
+  ],
+  "homepage": "https://github.com/e-/Hangul.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
