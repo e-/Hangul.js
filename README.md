@@ -45,7 +45,7 @@ var Hangul = require('hangul-js');
 ## 명세
 
 ### Hangul.disassemble (alias `Hangul.d`)
-`Hangul.disassemble(string, grouped = false)`은 문자열 `string`을 인자로 받아 문자열에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.d`처럼 짧은 이름으로 사용할 수도 있습니다.
+`Hangul.disassemble(str:string, grouped:boolean = false)`은 문자열 `str`에 있는 한글을 자음/모음으로 분리하여 문자들의 배열로 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.d`처럼 짧은 이름으로 사용할 수도 있습니다.
 
 ```js
 Hangul.disassemble('가나다'); // ['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']
@@ -80,7 +80,7 @@ Hangul.d('매드캣MK2');
 
 ### Hangul.assemble (alias `Hangul.a`)
 
-`Hangul.assemble(array)`는 한글 자음/모음들의 배열을 인자로 받아 이를 조합한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.a`처럼 짧은 이름으로 사용할 수도 있습니다.
+`Hangul.assemble(arr:string[])`는 한글 자음/모음들의 배열 `arr`을 인자로 받아 이를 조합한 문자열을 돌려줍니다. 이 때 한글이 아닌 문자는 그대로 반환됩니다. `Hangul.a`처럼 짧은 이름으로 사용할 수도 있습니다.
 
 ```js
 Hangul.assemble(['ㄱ','ㅏ','ㄴ','ㅏ','ㄷ','ㅏ']); // '가나다'
@@ -106,7 +106,7 @@ Hangul.a(Hangul.d('옽ㅏ')); // '오타' ('옽ㅏ' 가 아님)
 
 ### Hangul.search
 
-`Hangul.search(string a, string b)`는 a문자열이 b문자열을 포함하는지 검사합니다. 이때 'a문자열이 b문자열을 포함한다'는 '두벌식 키보드 기준으로 a문자열을 입력할 때 누르는 키들의 배열이 b문자열을 입력할 때 누르는 키들의 배열을 포함한다'로 정의합니다. 반환값이 0보다 크거나 같다면 포함합니다.
+`Hangul.search(a:string, b:string)`는 문자열 `a`가 문자열 `b`를 포함하는지 검사합니다. 이때 포함관계는 '두벌식 키보드 기준으로 a문자열을 입력할 때 누르는 키들의 배열이 b문자열을 입력할 때 누르는 키들의 배열을 포함한다'로 정의합니다. 반환값이 0보다 크거나 같다면 포함합니다.
 
 ```js
 Hangul.search('달걀','닭'); // 0
@@ -123,18 +123,6 @@ var a = '도우미'
 a.indexOf(b); // -1
 
 Hangul.search(a, b); // 0
-```
-
-사실 구현은 간단하게 되어있습니다.
-
-```js
-var search = function(a, b){
-  var ad = disassemble(a).join('')
-    , bd = disassemble(b).join('');
-    
-    return ad.indexOf(bd);
-  };
-}
 ```
 
 실제 사용할 때에는 하나의 단어를 여러개의 문자열과 비교하므로 `Hangul.Searcher`를 사용하는게 편합니다.
@@ -204,7 +192,7 @@ function stronger(x){
   return x;
 }
 
-console.log(Hangul.assemble(Hangul.disassemble(input).map(stronger))); 
+console.log(Hangul.a(Hangul.d(input).map(stronger))); 
 // 아뻐찌까 빵에 뜰어까씬따
 ```
 
