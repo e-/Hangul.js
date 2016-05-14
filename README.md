@@ -6,6 +6,21 @@
 
 ## 설치 및 사용방법
 
+### Bower
+
+```bash
+bower install hangul-js
+```
+
+### node.js 
+
+```bash
+npm install hangul-js
+```
+```js
+var Hangul = require('hangul-js');
+```
+
 ### 일반 웹 페이지
 
 웹 페이지에서 사용하려면 hangul.js 파일을 `<script>`태그를 이용하여 삽입합니다.
@@ -15,31 +30,6 @@
 자바스크립트 코드에서 전역에 노출된 Hangul이라는 객체를 통해 접근할 수 있습니다.
 ```js
 Hangul // window.Hangul
-```
-
-### require.js
-
-require.js와 함께 사용하려면 우선 hangul.js 파일을 다운로드 받은 후 아래처럼 `path`에 등록한 후 불러옵니다.
-```js
-requirejs.config({
-  paths: {
-    Hangul: 'path/to/hangul (without extension!)'
-  }
-});
-
-requirejs(['Hangul'], function(Hangul){
-  // Hangul.assemble(...);
-});
-```
-
-### node.js 
-
-node.js와 함께 사용하려면 npm을 이용하여 설치하고 `require`키워드를 통해 불러옵니다.
-```bash
-npm install hangul-js
-```
-```js
-var Hangul = require('hangul-js');
 ```
 
 ## 명세
