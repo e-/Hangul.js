@@ -454,6 +454,11 @@
         c = c.charCodeAt(0);
       return _isHangul(c);
     },
+    isComplete: function(c){
+      if (typeof c === 'string')
+        c = c.charCodeAt(0);
+      return _isHangul(c);
+    },
     isConsonant: function(c){
       if (typeof c === 'string')
         c = c.charCodeAt(0);

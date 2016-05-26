@@ -203,24 +203,24 @@ $(function(){
 
   QUnit.test ('Hangul Check Tests', function(){
     equal(
-      Hangul.isHangul('한'),
+      Hangul.isComplete('한'),
       true,
-      "Hangul.isHangul('한')"
+      "Hangul.isComplete('한')"
     );
     equal(
-      Hangul.isHangul('ㄱ'),
+      Hangul.isComplete('ㄱ'),
       false,
-      "Hangul.isHangul('ㄱ')"
+      "Hangul.isComplete('ㄱ')"
     );
     equal(
-      Hangul.isHangul('ㅙ'),
+      Hangul.isComplete('ㅙ'),
       false,
-      "Hangul.isHangul('ㅙ')"
+      "Hangul.isComplete('ㅙ')"
     );
     equal(
-      Hangul.isHangul('a'),
+      Hangul.isComplete('a'),
       false,
-      "Hangul.isHangul('a')"
+      "Hangul.isComplete('a')"
     );
 
     equal(
@@ -458,37 +458,37 @@ $(function(){
     deepEqual(
       Hangul.rangeSearch(text, '갠'),
       [],
-      "Hangul.ranges('" + text + "', '갠')"
+      "Hangul.rangeSearch('" + text + "', '갠')"
     );
 
     deepEqual(
       Hangul.rangeSearch(text, '간'),
       [[0, 0]],
-      "Hangul.ranges('" + text + "', '간')"
+      "Hangul.rangeSearch('" + text + "', '간')"
     );
 
     deepEqual(
       Hangul.rangeSearch(text, '장'),
       [[1, 1], [3, 3], [5, 5], [6, 6]],
-      "Hangul.ranges('" + text + "', '장')"
+      "Hangul.rangeSearch('" + text + "', '장')"
     );
 
     deepEqual(
       Hangul.rangeSearch(text, '공장'),
       [[2, 3], [4, 5]],
-      "Hangul.ranges('" + text + "', '공장')"
+      "Hangul.rangeSearch('" + text + "', '공장')"
     );
 
     deepEqual(
       Hangul.rangeSearch(text, 'ㅏㅇㄱ'),
       [[1, 2], [3, 4]],
-      "Hangul.ranges('" + text + "', 'ㅏㅇㄱ')"
+      "Hangul.rangeSearch('" + text + "', 'ㅏㅇㄱ')"
     );
 
     deepEqual(
       Hangul.rangeSearch(text, 'ㅇ공ㅈ'),
       [[1, 3], [3, 5]],
-      "Hangul.ranges('" + text + "', 'ㅇ공ㅈ')"
+      "Hangul.rangeSearch('" + text + "', 'ㅇ공ㅈ')"
     );
   });
  
