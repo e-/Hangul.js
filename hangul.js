@@ -226,7 +226,6 @@
       ;
 
     function _makeHangul(index){ // complete_index + 1부터 index까지를 greedy하게 한글로 만든다.
-		console.log('_makeHangul', complete_index, index);
       var code,
           cho,
           jung1,
@@ -274,7 +273,7 @@
             hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET);
           }
         } else if (step === 3) {
-          if(jung1 == null) { //중성이 없이 step3에 들어온 경우 (쌍자음이 분절로 들어온 경우)
+          if(jung1 === null) { //중성이 없이 step3에 들어온 경우 (쌍자음이 분절로 들어온 경우)
             jung1 = array[complete_index + step].charCodeAt(0);
           }else {
             jung2 = array[complete_index + step].charCodeAt(0);
