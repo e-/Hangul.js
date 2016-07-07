@@ -151,6 +151,16 @@ $(function(){
       'ㅒㅗㅒ',
       "Hangul.assemble(['ㅒ','ㅗ','ㅒ'])"
     );
+    deepEqual(
+      Hangul.assemble('ㄱㄱ'),
+      'ㄲ',
+      "Hangul.assemble('ㄱㄱ')"
+    );
+    deepEqual(
+      Hangul.assemble(['ㄷ','ㅏ','ㄷ','ㄷ','ㅏ']),
+      '닫다',
+      "Hangul.assemble(['ㄷ','ㅏ','ㄷ','ㄷ','ㅏ'])"
+    );
   });
 
   QUnit.test ('Hangul.search Tests', function(){
@@ -508,5 +518,3 @@ $(function(){
     return false;
   });
 });
-
-

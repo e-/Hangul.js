@@ -49,17 +49,22 @@
         'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
       ],
       COMPLEX_CONSONANTS = [
+        ['ㄱ','ㄱ','ㄲ'],  
         ['ㄱ','ㅅ','ㄳ'],
         ['ㄴ','ㅈ','ㄵ'],
         ['ㄴ','ㅎ','ㄶ'],
+        ['ㄷ','ㄷ','ㄸ'],
         ['ㄹ','ㄱ','ㄺ'], 
         ['ㄹ','ㅁ','ㄻ'], 
         ['ㄹ','ㅂ','ㄼ'],
         ['ㄹ','ㅅ','ㄽ'], 
         ['ㄹ','ㅌ','ㄾ'], 
         ['ㄹ','ㅍ','ㄿ'], 
-        ['ㄹ','ㅎ','ㅀ'], 
-        ['ㅂ','ㅅ','ㅄ']
+        ['ㄹ','ㅎ','ㅀ'],
+        ['ㅂ','ㅂ','ㅃ'],
+        ['ㅂ','ㅅ','ㅄ'],
+        ['ㅅ','ㅅ','ㅆ'],
+        ['ㅈ','ㅈ','ㅉ']
       ],
       COMPLEX_VOWELS = [
         ['ㅗ','ㅏ','ㅘ'], 
@@ -256,18 +261,27 @@
           if (_isCho(jung1)) { //두번째 또 자음이 오면 ㄳ 에서 ㅅ같은 경우이다
             cho = _isJongJoinable(cho, jung1);
             hangul = String.fromCharCode(cho);
-            result.push(hangul);
-            complete_index = index;
-            return;
+            if(complete_index + step >= index) {
+              result.push(hangul);
+              complete_index = index;
+              return;
+            }else {
+              cho = hangul.charCodeAt(0);
+              jung1 = null;
+            }
           } else {
             hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET);
           }
         } else if (step === 3) {
-          jung2 = array[complete_index + step].charCodeAt(0);
-          if (_isJungJoinable(jung1, jung2)) {
-            jung1 = _isJungJoinable(jung1, jung2);
-          } else {
-            jong1 = jung2;
+          if(jung1 === null) { //중성이 없이 step3에 들어온 경우 (쌍자음이 분절로 들어온 경우)
+            jung1 = array[complete_index + step].charCodeAt(0);
+          }else {
+            jung2 = array[complete_index + step].charCodeAt(0);
+            if (_isJungJoinable(jung1, jung2)) {
+              jung1 = _isJungJoinable(jung1, jung2);
+            } else {
+              jong1 = jung2;
+            }
           }
           hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
         } else if (step === 4) {
@@ -360,7 +374,7 @@
         }
       } else if (stage == 5) { // 초성이 연속해서 두개 온 상태 ㄺ
         if (_isJung(code)) { //이번에 중성이면 ㄹ가 
-          _makeHangul(i-2);
+//          _makeHangul(i-2);
           stage = 2;
         } else { 
           _makeHangul(i-1);
@@ -492,4 +506,3 @@
     window.Hangul = hangul;
   }
 })();
-
