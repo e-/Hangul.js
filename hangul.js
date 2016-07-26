@@ -389,6 +389,8 @@
         indices = [],
         result;
 
+    if(!needle.length) return [];
+
     while((result = re.exec(hex))) {
       indices.push(result.index);
     }

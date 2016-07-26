@@ -452,7 +452,7 @@ $(function(){
     );
   });
 
-  QUnit.test('Ranges() tests', function(){
+  QUnit.test('rangeSearch() tests', function(){
     var text = '간장공장공장장';
 
     deepEqual(
@@ -490,6 +490,12 @@ $(function(){
       [[1, 3], [3, 5]],
       "Hangul.rangeSearch('" + text + "', 'ㅇ공ㅈ')"
     );
+    
+    deepEqual(
+      Hangul.rangeSearch(text, ''),
+      [],
+      "Hangul.rangeSearch('" + text + "', '') (this should return an empty array)"
+    )
   });
  
   $('#test1').submit(function(){
