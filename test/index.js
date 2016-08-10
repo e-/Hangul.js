@@ -58,6 +58,12 @@ $(function(){
       ['ㅗ','ㅐ'],
       "Hangul.disassemble('ㅙ')"
     );
+
+    throws(
+      function() { Hangul.disassemble(null); },
+      function(err) { return err.message === 'Arguments cannot be null'; },
+      'Hangul.disassemble(null) must raise an exception.'
+    );
   });
 
   QUnit.test ('Hangul.assemble Tests', function(){

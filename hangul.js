@@ -143,6 +143,10 @@
   }
 
   var disassemble = function(string, grouped){
+    if (string === null) {
+      throw new Error('Arguments cannot be null');
+    }
+
     if (typeof string === 'object') {
       string = string.join('');
     }
