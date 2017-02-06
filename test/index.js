@@ -324,6 +324,103 @@ $(function(){
     );
   });
 
+  QUnit.test ('Hangul CheckAll Tests', function(){
+    equal(
+      Hangul.isAllComplete('한글'),
+      true,
+      "Hangul.isAllComplete('한글')"
+    );
+    equal(
+      Hangul.isAllComplete('한글ㄱ'),
+      false,
+      "Hangul.isAllComplete('한글ㄱ')"
+    );
+    equal(
+      Hangul.isAllComplete('한글a'),
+      false,
+      "Hangul.isAllComplete('한글a')"
+    );
+
+    equal(
+      Hangul.isAllConsonant('한ㄱ'),
+      false,
+      "Hangul.isAllConsonant('한ㄱ')"
+    );
+    equal(
+      Hangul.isAllConsonant('ㅎㄱ'),
+      true,
+      "Hangul.isAllConsonant('ㅎㄱ')"
+    );
+    equal(
+      Hangul.isAllConsonant('ㅁa'),
+      false,
+      "Hangul.isAllConsonant('ㅁa')"
+    );
+
+    equal(
+      Hangul.isAllVowel('한글'),
+      false,
+      "Hangul.isAllVowel('한글')"
+    );
+    equal(
+      Hangul.isAllVowel('ㅗㄱ'),
+      false,
+      "Hangul.isAllVowel('ㅗㄱ')"
+    );
+    equal(
+      Hangul.isAllVowel('ㅙㅜ'),
+      true,
+      "Hangul.isAllVowel('ㅙㅜ')"
+    );
+    equal(
+      Hangul.isAllVowel('ㅙa'),
+      false,
+      "Hangul.isAllVowel('aa')"
+    );
+    
+    equal(
+      Hangul.isAllCho('ㄱㄴㄷ'),
+      true,
+      "Hangul.isAllCho('ㄱㄴㄷ')"
+    );
+    equal(
+      Hangul.isAllCho('ㄸㄲㅆ'),
+      true,
+      "Hangul.isAllCho('ㄸㄲㅆ')"
+    );
+    equal(
+      Hangul.isAllCho('ㄱㄴㄳ'),
+      false,
+      "Hangul.isAllCho('ㄱㄴㄳ')"
+    );
+    equal(
+      Hangul.isAllCho('ㄱㄴㅏ'),
+      false,
+      "Hangul.isAllCho('ㄱㄴㅏ')"
+    );
+    equal(
+      Hangul.isAllCho('ㄱㄴa'),
+      false,
+      "Hangul.isAllCho('ㄱㄴa')"
+    );
+
+    equal(
+      Hangul.isAllJong('ㄱㄴ'),
+      true,
+      "Hangul.isAllJong('ㄱㄴ')"
+    );
+    equal(
+      Hangul.isAllJong('ㄱㄸ'),
+      false,
+      "Hangul.isAllJong('ㄱㄸ')"
+    );
+    equal(
+      Hangul.isAllJong('ㄳㅄ'),
+      true,
+      "Hangul.isAllJong('ㄳㅄ')"
+    );
+  });
+
   QUnit.test('Hangul.endsWithConsonant Tests', function () {
     equal(
       Hangul.endsWithConsonant('ㄱ'),
@@ -501,7 +598,7 @@ $(function(){
       Hangul.rangeSearch(text, ''),
       [],
       "Hangul.rangeSearch('" + text + "', '') (this should return an empty array)"
-    )
+    );
   });
  
   $('#test1').submit(function(){
