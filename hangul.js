@@ -518,7 +518,7 @@
     isAllConsonant: function(str){
       if (typeof str === 'string') {
         for (var i = 0; i < str.length; i++) {
-          if (_isConsonant(str.charCodeAt(i))) return false;
+          if (!_isConsonant(str.charCodeAt(i))) return false;
         }
       } else {
         return false;
