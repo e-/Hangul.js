@@ -2,7 +2,7 @@
  * Hangul.js
  * https://github.com/e-/Hangul.js
  *
- * Copyright 2016, Jaemin Jo
+ * Copyright 2017, Jaemin Jo
  * under the MIT license.
  */
 
@@ -13,29 +13,29 @@
         'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
         'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ',
         'ㅍ', 'ㅎ'
-      ],  
+      ],
       JUNG = [
         'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
         'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', ['ㅗ', 'ㅏ'], ['ㅗ', 'ㅐ'],
         ['ㅗ', 'ㅣ'], 'ㅛ', 'ㅜ', ['ㅜ','ㅓ'], ['ㅜ','ㅔ'], ['ㅜ','ㅣ'],
         'ㅠ', 'ㅡ', ['ㅡ', 'ㅣ'], 'ㅣ'
-      ],  
+      ],
       JONG = [
         '', 'ㄱ', 'ㄲ', ['ㄱ','ㅅ'], 'ㄴ', ['ㄴ','ㅈ'], ['ㄴ', 'ㅎ'], 'ㄷ', 'ㄹ',
         ['ㄹ', 'ㄱ'], ['ㄹ','ㅁ'], ['ㄹ','ㅂ'], ['ㄹ','ㅅ'], ['ㄹ','ㅌ'], ['ㄹ','ㅍ'], ['ㄹ','ㅎ'], 'ㅁ',
-        'ㅂ', ['ㅂ','ㅅ'], 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
-      ],  
-      HANGUL_OFFSET = 0xAC00,
-      CONSONANTS = [  
-        'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄸ',
-        'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 
-        'ㅁ', 'ㅂ', 'ㅃ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 
-        'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
+        'ㅂ', ['ㅂ','ㅅ'], 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
       ],
-      COMPLETE_CHO = [ 
+      HANGUL_OFFSET = 0xAC00,
+      CONSONANTS = [
+        'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄸ',
+        'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ',
+        'ㅁ', 'ㅂ', 'ㅃ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ',
+        'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+      ],
+      COMPLETE_CHO = [
         'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
         'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
-        'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'    
+        'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
       ],
       COMPLETE_JUNG = [
         'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
@@ -46,27 +46,27 @@
       COMPLETE_JONG = [
         '', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ',
         'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ',
-        'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ' 
+        'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
       ],
       COMPLEX_CONSONANTS = [
         ['ㄱ','ㅅ','ㄳ'],
         ['ㄴ','ㅈ','ㄵ'],
         ['ㄴ','ㅎ','ㄶ'],
-        ['ㄹ','ㄱ','ㄺ'], 
-        ['ㄹ','ㅁ','ㄻ'], 
+        ['ㄹ','ㄱ','ㄺ'],
+        ['ㄹ','ㅁ','ㄻ'],
         ['ㄹ','ㅂ','ㄼ'],
-        ['ㄹ','ㅅ','ㄽ'], 
-        ['ㄹ','ㅌ','ㄾ'], 
-        ['ㄹ','ㅍ','ㄿ'], 
-        ['ㄹ','ㅎ','ㅀ'], 
+        ['ㄹ','ㅅ','ㄽ'],
+        ['ㄹ','ㅌ','ㄾ'],
+        ['ㄹ','ㅍ','ㄿ'],
+        ['ㄹ','ㅎ','ㅀ'],
         ['ㅂ','ㅅ','ㅄ']
       ],
       COMPLEX_VOWELS = [
-        ['ㅗ','ㅏ','ㅘ'], 
+        ['ㅗ','ㅏ','ㅘ'],
         ['ㅗ','ㅐ','ㅙ'],
-        ['ㅗ','ㅣ','ㅚ'], 
-        ['ㅜ','ㅓ','ㅝ'], 
-        ['ㅜ','ㅔ','ㅞ'], 
+        ['ㅗ','ㅣ','ㅚ'],
+        ['ㅜ','ㅓ','ㅝ'],
+        ['ㅜ','ㅔ','ㅞ'],
         ['ㅜ','ㅣ','ㅟ'],
         ['ㅡ','ㅣ','ㅢ']
       ],
@@ -129,7 +129,7 @@
   function _isJong(c){
     return typeof JONG_HASH[c] !== 'undefined';
   }
-  
+
   function _isHangul(c /* code number */){
     return 0xAC00 <= c && c <= 0xd7a3;
   }
@@ -197,20 +197,20 @@
         r = JUNG[JUNG_HASH[code]];
         if (typeof r === 'string') {
           temp.push(r);
-        } else { 
+        } else {
           temp = temp.concat(r);
         }
       } else {
         temp.push(string.charAt(i));
       }
-      
+
       if(grouped) result.push(temp);
       else result = result.concat(temp);
     }
 
     return result;
   };
-  
+
   var assemble = function(array){
     if (typeof array === 'string') {
       array = disassemble(array);
@@ -240,7 +240,7 @@
         if (step === 1) {
           cho = array[complete_index + step].charCodeAt(0);
           if (_isJung(cho)) { // 첫번째 것이 모음이면 1) ㅏ같은 경우이거나 2) ㅙ같은 경우이다
-            if (complete_index + step + 1 <= index && _isJung(jung1 = array[complete_index + step + 1].charCodeAt(0))) { //다음것이 있고 모음이면 
+            if (complete_index + step + 1 <= index && _isJung(jung1 = array[complete_index + step + 1].charCodeAt(0))) { //다음것이 있고 모음이면
               result.push(String.fromCharCode(_isJungJoinable(cho, jung1)));
               complete_index = index;
               return;
@@ -287,7 +287,7 @@
           jong1 = _isJongJoinable(jong1, jong2);
           hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
         }
-        
+
         if (complete_index + step >= index) {
           result.push(hangul);
           complete_index = index;
@@ -295,11 +295,11 @@
         }
       }
     }
-  
+
     for (var i = 0 ; i < length ; i++) {
       code = array[i].charCodeAt(0);
       if (!_isCho(code) && !_isJung(code) && !_isJong(code)){ //초, 중, 종성 다 아니면
-        _makeHangul(i-1); 
+        _makeHangul(i-1);
         _makeHangul(i);
         stage = 0;
         continue;
@@ -307,8 +307,8 @@
       //console.log(stage, array[i]);
       if (stage === 0) { // 초성이 올 차례
         if (_isCho(code)) { // 초성이 오면 아무 문제 없다.
-          stage = 1; 
-        } else if (_isJung(code)) { 
+          stage = 1;
+        } else if (_isJung(code)) {
           // 중성이오면 ㅐ 또는 ㅘ 인것이다. 바로 구분을 못한다. 따라서 특수한 stage인 stage4로 이동
           stage = 4;
         }
@@ -316,19 +316,19 @@
         if (_isJung(code)) { //중성이 오면 문제없음 진행.
           stage = 2;
         } else { //아니고 자음이오면 ㄻ같은 경우가 있고 ㄹㅋ같은 경우가 있다.
-          if (_isJongJoinable(previous_code, code)) { 
+          if (_isJongJoinable(previous_code, code)) {
             // 합쳐질 수 있다면 ㄻ 같은 경우인데 이 뒤에 모음이 와서 ㄹ마 가 될수도 있고 초성이 올 수도 있다. 따라서 섣불리 완성할 수 없다. 이땐 stage5로 간다.
             stage = 5;
-          } else { //합쳐질 수 없다면 앞 글자 완성 후 여전히 중성이 올 차례 
-            _makeHangul(i-1); 
+          } else { //합쳐질 수 없다면 앞 글자 완성 후 여전히 중성이 올 차례
+            _makeHangul(i-1);
           }
         }
-      } else if (stage == 2) { //종성이 올 차례 
-        if (_isJong(code)) { //종성이 오면 다음엔 자음 또는 모음이 온다. 
+      } else if (stage == 2) { //종성이 올 차례
+        if (_isJong(code)) { //종성이 오면 다음엔 자음 또는 모음이 온다.
           stage = 3;
         } else if (_isJung(code)) { //그런데 중성이 오면 앞의 모음과 합칠 수 있는지 본다.
           if (_isJungJoinable(previous_code, code)) { //합칠 수 있으면 여전히 종성이 올 차례고 그대로 진행
-          } else { // 합칠 수 없다면 오타가 생긴 경우 
+          } else { // 합칠 수 없다면 오타가 생긴 경우
             _makeHangul(i-1);
             stage = 4;
           }
@@ -363,10 +363,10 @@
           stage = 1;
         }
       } else if (stage == 5) { // 초성이 연속해서 두개 온 상태 ㄺ
-        if (_isJung(code)) { //이번에 중성이면 ㄹ가 
+        if (_isJung(code)) { //이번에 중성이면 ㄹ가
           _makeHangul(i-2);
           stage = 2;
-        } else { 
+        } else {
           _makeHangul(i-1);
           stage = 1;
         }
@@ -374,7 +374,7 @@
       previous_code = code;
     }
     _makeHangul(i-1);
-    return result.join(''); 
+    return result.join('');
   };
 
   var search = function(a, b){
@@ -384,9 +384,9 @@
 
     return ad.indexOf(bd);
   };
- 
+
   var rangeSearch = function(haystack, needle){
-    var hex = disassemble(haystack).join(''), 
+    var hex = disassemble(haystack).join(''),
         nex = disassemble(needle).join(''),
         grouped = disassemble(haystack, true),
         re = new RegExp(nex, 'gi'),
@@ -398,14 +398,14 @@
     while((result = re.exec(hex))) {
       indices.push(result.index);
     }
-  
+
     function findStart(index) {
       for(var i = 0, length = 0; i < grouped.length; ++i) {
         length += grouped[i].length;
         if(index < length) return i;
       }
     }
-    
+
     function findEnd(index) {
       for(var i = 0, length = 0; i < grouped.length; ++i) {
         length += grouped[i].length;
@@ -423,7 +423,7 @@
     this.disassembled = disassemble(string).join('');
   }
 
-  Searcher.prototype.search = function(string) { 
+  Searcher.prototype.search = function(string) {
     return disassemble(string).join('').indexOf(this.disassembled);
   };
 
