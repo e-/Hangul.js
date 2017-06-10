@@ -377,7 +377,7 @@
     return result.join('');
   };
 
-  var search = function(a, b){
+  var _search = function(a, b){
     var ad = disassemble(a).join(''),
         bd = disassemble(b).join('')
         ;
@@ -385,15 +385,28 @@
     return ad.indexOf(bd);
   };
 
-  var rangeSearch = function(haystack, needle){
+  var _searchCho = function(a, b){
+	  var adc = disassemble(a, true).map(function(t){return t[0]}).join(''),
+	      bd = disassemble(b).join('')
+	      ;
+	  return adc.indexOf(bd);
+  }
+
+  var search = function(a, b, cho){
+    if(cho && _checkString(_isConsonantB, b, 'ALL')){
+      return _searchCho(a,b);
+    } else {
+      return _search(a,b);
+    }
+  };
+  
+  var _rangeSearch = function(haystack, needle){
     var hex = disassemble(haystack).join(''),
         nex = disassemble(needle).join(''),
         grouped = disassemble(haystack, true),
         re = new RegExp(nex, 'gi'),
         indices = [],
         result;
-
-    if(!needle.length) return [];
 
     while((result = re.exec(hex))) {
       indices.push(result.index);
@@ -417,14 +430,42 @@
       return [findStart(i), findEnd(i)];
     });
   };
+  
+  var _rangeSearchCho = function(a, b){
+    var adc = disassemble(a, true).map(function(t){return t[0]}).join(''),
+        bd = disassemble(b).join(''),
+        re = new RegExp(bd, 'gi'),
+        indices = [],
+        result;
+    while((result = re.exec(adc))) {
+      indices.push(result.index);
+    }
+    return indices.map(function(i) {
+      return [i, i+bd.length-1]
+    });
+  };
 
-  function Searcher(string) {
+  var rangeSearch = function(haystack, needle, cho){
+    if(!needle.length) return [];
+    if(cho && _checkString(_isConsonantB, needle, 'ALL')){
+      return _rangeSearchCho(haystack,needle);
+    } else {
+      return _rangeSearch(haystack,needle);
+    }
+  };
+  
+  function Searcher(string, cho) {
     this.string = string;
     this.disassembled = disassemble(string).join('');
+    this.cho = cho && _checkString(_isConsonantB, string, 'ALL');
   }
 
   Searcher.prototype.search = function(string) {
-    return disassemble(string).join('').indexOf(this.disassembled);
+    if(this.cho){
+      return disassemble(string, true).map(function(t){return t[0]}).join('').indexOf(this.disassembled);
+    } else {
+      return disassemble(string).join('').indexOf(this.disassembled);
+    }
   };
 
   var endsWithConsonant = function (string) {
@@ -446,6 +487,38 @@
     return false;
   };
 
+  var _option = function(o){
+    return (typeof o === 'string')?o.replace(/[-_ ]/,'').toUpperCase():o;
+  };
+  
+  var _checkStringAll = function(f, c){
+    for(var i=0; i<c.length; i++){
+      if(!f(c.charCodeAt(i))) return false;
+    }
+    return true;
+  };
+  
+  var _checkStringOneOrMore = function(f, c){
+    for(var i=0; i<c.length; i++){
+      if(f(c.charCodeAt(i))) return true;
+    }
+    return false;
+  }  
+
+  var _checkString = function(f, c, o){
+    o = _option(o);
+    if(o == 'ALL'){
+   	  return _checkStringAll(f, c);
+    } else if(o == 'ONE'){
+      return _checkStringOneOrMore(f, c);
+    }
+    return f(c.charCodeAt(0));
+  };
+  
+  var _isConsonantB = function(c){
+    return (typeof _isConsonant(c)) !== 'undefined';
+  }
+
   var hangul = {
     disassemble: disassemble,
     d: disassemble, // alias for disassemble
@@ -455,35 +528,35 @@
     rangeSearch: rangeSearch,
     Searcher: Searcher,
     endsWithConsonant: endsWithConsonant,
-    isHangul: function(c){
+    isHangul: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
+   	    return _checkString(_isHangul, c, o)
       return _isHangul(c);
     },
-    isComplete: function(c){
+    isComplete: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
+       	return _checkString(_isHangul, c, o)
       return _isHangul(c);
     },
-    isConsonant: function(c){
+    isConsonant: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
-      return (typeof _isConsonant(c)) !== 'undefined';
+        return _checkString(_isConsonantB, c, o);
+      return _isConsonantB(c);
     },
-    isVowel: function(c){
+    isVowel: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
+        return _checkString(_isJung, c, o);
       return _isJung(c);
     },
-    isCho: function(c){
+    isCho: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
+        return _checkString(_isCho, c, o);
       return _isCho(c);
 
     },
-    isJong: function(c){
+    isJong: function(c, o){
       if (typeof c === 'string')
-        c = c.charCodeAt(0);
+        return _checkString(_isJong, c, o);
       return _isJong(c);
     }
   };

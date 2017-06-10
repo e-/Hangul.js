@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src='http://code.jquery.com/jquery-latest.min.js'></script>
+<script type="text/javascript" src='../hangul.js'></script>
+<script type="text/javascript">
+function doDisassemble(){
+	var r = Hangul.disassemble($('#hangul_text').val().trim(), false);
+	$('#hangul_disassembled').text(r.join(''));
+	return r;
+}
+function doDisassembleCho(){
+	var r = Hangul.disassemble($('#hangul_text').val().trim(), true).map(function(t){return t[0];});
+	$('#hangul_disassembled').text(r.join(''));
+	return r;
+}
+function doSearch(){
+	var t = $('#hangul_text').val();
+	var r1 = Hangul.rangeSearch(t, $('#hangul_search').val(), $(":input:radio[name=hangul_searchCho]:checked").val() == 'on' );
+	var r2 = r1.map(function(a){return t.substr(a[0], a[1]-a[0]+1);})
+	$('#hangul_searched').text(r2);
+	return r1;
+}
+</script>
+</head>
+<body>
+	<div>
+		<textarea id="hangul_text" rows="10" cols="100">세종어제 훈민정음나라 말이 중국과 달라문자와는 서로 맞지 아니해서이런 까닭으로 어리석은 백성이 이르고자 할 바 있어도마침내 제 뜻을 능히 펴지 못한 사람이 많으니라내 이를 위하여 가엾이 여겨새로 스물여덟 자를 만드노니사람마다 하여 쉬이 익혀 날로 쓰며 편안케 하고자 할 따름이니라</textarea>
+		<a href="javascript:doDisassemble()">disassemble</a>
+		<a href="javascript:doDisassembleCho()">초성</a>
+		<div id="hangul_disassembled"></div>
+	</div>
+	<div>
+		<input id="hangul_search" type="text" value="ㅂㅅ"/>
+		초성검색 : 
+		<input name="hangul_searchCho" type="radio" value="on" checked/>On
+		<input name="hangul_searchCho" type="radio" value="off" />Off
+		<br/>
+		<a href="javascript:doSearch()">search</a>
+		<div id="hangul_searched"></div>
+	</div>
+</body>
+</html>
