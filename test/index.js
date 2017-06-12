@@ -323,6 +323,103 @@ $(function(){
     );
   });
 
+  QUnit.test ('Hangul CheckAll Tests', function(assert){
+    assert.equal(
+      Hangul.isCompleteAll('한글'),
+      true,
+      "Hangul.isCompleteAll('한글')"
+    );
+    assert.equal(
+      Hangul.isCompleteAll('한글ㄱ'),
+      false,
+      "Hangul.isCompleteAll('한글ㄱ')"
+    );
+    assert.equal(
+      Hangul.isCompleteAll('한글a'),
+      false,
+      "Hangul.isCompleteAll('한글a')"
+    );
+
+    assert.equal(
+      Hangul.isConsonantAll('한ㄱ'),
+      false,
+      "Hangul.isConsonantAll('한ㄱ')"
+    );
+    assert.equal(
+      Hangul.isConsonantAll('ㅎㄱ'),
+      true,
+      "Hangul.isConsonantAll('ㅎㄱ')"
+    );
+    assert.equal(
+      Hangul.isConsonantAll('ㅁa'),
+      false,
+      "Hangul.isConsonantAll('ㅁa')"
+    );
+
+    assert.equal(
+      Hangul.isVowelAll('한글'),
+      false,
+      "Hangul.isVowelAll('한글')"
+    );
+    assert.equal(
+      Hangul.isVowelAll('ㅗㄱ'),
+      false,
+      "Hangul.isVowelAll('ㅗㄱ')"
+    );
+    assert.equal(
+      Hangul.isVowelAll('ㅙㅜ'),
+      true,
+      "Hangul.isVowelAll('ㅙㅜ')"
+    );
+    assert.equal(
+      Hangul.isVowelAll('ㅙa'),
+      false,
+      "Hangul.isVowelAll('aa')"
+    );
+
+    assert.equal(
+      Hangul.isChoAll('ㄱㄴㄷ'),
+      true,
+      "Hangul.isChoAll('ㄱㄴㄷ')"
+    );
+    assert.equal(
+      Hangul.isChoAll('ㄸㄲㅆ'),
+      true,
+      "Hangul.isChoAll('ㄸㄲㅆ')"
+    );
+    assert.equal(
+      Hangul.isChoAll('ㄱㄴㄳ'),
+      false,
+      "Hangul.isChoAll('ㄱㄴㄳ')"
+    );
+    assert.equal(
+      Hangul.isChoAll('ㄱㄴㅏ'),
+      false,
+      "Hangul.isChoAll('ㄱㄴㅏ')"
+    );
+    assert.equal(
+      Hangul.isChoAll('ㄱㄴa'),
+      false,
+      "Hangul.isChoAll('ㄱㄴa')"
+    );
+
+    assert.equal(
+      Hangul.isJongAll('ㄱㄴ'),
+      true,
+      "Hangul.isJongAll('ㄱㄴ')"
+    );
+    assert.equal(
+      Hangul.isJongAll('ㄱㄸ'),
+      false,
+      "Hangul.isJongAll('ㄱㄸ')"
+    );
+    assert.equal(
+      Hangul.isJongAll('ㄳㅄ'),
+      true,
+      "Hangul.isJongAll('ㄳㅄ')"
+    );
+  });
+
   QUnit.test('Hangul.endsWithConsonant Tests', function (assert) {
     assert.equal(
       Hangul.endsWithConsonant('ㄱ'),
@@ -500,7 +597,7 @@ $(function(){
       Hangul.rangeSearch(text, ''),
       [],
       "Hangul.rangeSearch('" + text + "', '') (this should return an empty array)"
-    )
+    );
   });
 
   $('#test1').submit(function(){

@@ -143,22 +143,27 @@ Hangul.rangeSearch(a, b); // [[2, 3], [4, 5]]
 #### Hangul.isComplete(c)
 
 주어진 문자가 완성된 한글인지 아닌지 판단합니다. 완성된 한글이란 유니코드로 '가'(0xAC00) ~ '힣'(0xD7A3) 사이에 있는 문자를 말합니다. 'ㄱ', 'ㅙ' 등은 완성된 한글이 아닙니다.
+`Hangul.isCompleteAll(str)` 형태로 `str`의 모든 문자가 완성된 한글인지 판단할 수 있습니다.
 
 #### Hangul.isConsonant(c)
 
 주어진 문자가 자음인지 판단합니다. 
+`Hangul.isCosonantAll(str)` 형태로 `str`의 모든 문자가 자음인지 판단할 수 있습니다.
 
 #### Hangul.isVowel(c)
 
 주어진 문자가 모음인지 판단합니다.
+`Hangul.isVowelAll(str)` 형태로 `str`의 모든 문자가 모음인지 판단할 수 있습니다.
 
 #### Hangul.isCho(c)
 
 주어진 문자가 초성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 초성으로 쓰일 수 있지만 'ㄳ'는 초성으로 쓰일 수 없습니다.
+`Hangul.isChoAll(str)` 형태로 `str`의 모든 문자가 초성인지 판단할 수 있습니다.
 
 #### Hangul.isJong(c)
 
 주어진 문자가 종성으로 쓰일 수 있는지 판단합니다. 'ㄲ'은 종성으로 쓰일 수 있지만 'ㄸ'는 종성으로 쓰일 수 없습니다.
+`Hangul.isJongAll(str)` 형태로 `str`의 모든 문자가 종성인지 판단할 수 있습니다.
 
 #### Hangul.endsWithConsonant(c)
 
