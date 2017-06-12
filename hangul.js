@@ -115,7 +115,7 @@
   COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
 
   function _isConsonant(c) {
-    return CONSONANTS_HASH[c];
+    return typeof CONSONANTS_HASH[c] !== 'undefined';
   }
 
   function _isCho(c){
@@ -209,6 +209,14 @@
     }
 
     return result;
+  };
+
+  var disassembleToString =  function(str) {
+    if (typeof str !== 'string') {
+      return '';
+    }
+    str = disassemble(str);
+    return str.join('');
   };
 
   var assemble = function(array){
@@ -440,7 +448,7 @@
       if (jong > 0) {
         return true;
       }
-    } else if ((typeof _isConsonant(code)) !== 'undefined') { //자음이면
+    } else if (_isConsonant(code)) { //자음이면
       return true;
     }
     return false;
@@ -449,6 +457,8 @@
   var hangul = {
     disassemble: disassemble,
     d: disassemble, // alias for disassemble
+    disassembleToString: disassembleToString,
+    ds: disassembleToString, // alias for disassembleToString
     assemble: assemble,
     a: assemble, // alias for assemble
     search: search,
@@ -468,7 +478,7 @@
     isConsonant: function(c){
       if (typeof c === 'string')
         c = c.charCodeAt(0);
-      return (typeof _isConsonant(c)) !== 'undefined';
+      return _isConsonant(c);
     },
     isVowel: function(c){
       if (typeof c === 'string')
@@ -479,12 +489,53 @@
       if (typeof c === 'string')
         c = c.charCodeAt(0);
       return _isCho(c);
-
     },
     isJong: function(c){
       if (typeof c === 'string')
         c = c.charCodeAt(0);
       return _isJong(c);
+    },
+    isHangulAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isHangul(str.charCodeAt(i))) return false;
+      }
+      return true;
+    },
+    isCompleteAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isHangul(str.charCodeAt(i))) return false;
+      }
+      return true;
+    },
+    isConsonantAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isConsonant(str.charCodeAt(i))) return false;
+      }
+      return true;
+    },
+    isVowelAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isJung(str.charCodeAt(i))) return false;
+      }
+      return true;
+    },
+    isChoAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isCho(str.charCodeAt(i))) return false;
+      }
+      return true;
+    },
+    isJongAll: function(str){
+      if (typeof str !== 'string') return false;
+      for (var i = 0; i < str.length; i++) {
+        if (!_isJong(str.charCodeAt(i))) return false;
+      }
+      return true;
     }
   };
 
