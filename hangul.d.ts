@@ -7,7 +7,8 @@ declare class Searcher {
 
 declare interface Hangul {
   Searcher: typeof Searcher;
-  disassemble(str: string, grouped: boolean): string[];
+  disassemble(str: string, grouped?: false): string[];
+  disassemble(str: string, grouped?: true): string[][];
   disassembleToString(str: string): string;
   assemble(arr: string[]): string;
   search(a: string, b: string): number;
@@ -26,7 +27,8 @@ declare interface Hangul {
   isJongAll(str: string): boolean;
   endsWithConsonant(c: string): boolean;
   // Alias functions.
-  d(str: string, grouped: boolean): string[];
+  d(str: string, grouped?: false): string[];
+  d(str: string, grouped?: true): string[][];
   ds(str: string): string;
   a(arr: string[]): string;
 }
