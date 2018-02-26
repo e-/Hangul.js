@@ -21,6 +21,12 @@ npm install hangul-js
 var Hangul = require('hangul-js');
 ```
 
+### TypeScript
+
+```js
+import * as hangul from 'hangul-js';
+```
+
 ### 일반 웹 페이지
 
 웹 페이지에서 사용하려면 hangul.js 파일을 `<script>`태그를 이용하여 삽입합니다. AMD 패턴으로 불러올 수도 있습니다.
