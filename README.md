@@ -32,6 +32,9 @@ import * as hangul from 'hangul-js';
 웹 페이지에서 사용하려면 hangul.js 파일을 `<script>`태그를 이용하여 삽입합니다. AMD 패턴으로 불러올 수도 있습니다.
 ```html
 <script src="hangul.js" type="text/javascript"></script>
+
+<!-- or from CDN -->
+<scrip src="https://unpkg.com/hangul-js" type="text/javascript"></script>
 ```
 자바스크립트 코드에서 전역에 노출된 Hangul이라는 객체를 통해 접근할 수 있습니다.
 ```js
