@@ -489,6 +489,16 @@ $(function(){
       true,
       "Hangul.endsWith('각', 'ㄱ')"
     );
+    assert.equal(
+      Hangul.endsWith('abc', 'c'),
+      true,
+      "Hangul.endsWith('abc', 'c')"
+    );
+    assert.equal(
+      Hangul.endsWith('abc', 'b'),
+      false,
+      "Hangul.endsWith('abc', 'b')"
+    );
   });
 
   QUnit.test('Hangul.assemble and Hangul.disassemble on all Hangul characters', function(assert){
