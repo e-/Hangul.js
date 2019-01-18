@@ -468,6 +468,29 @@ $(function(){
     );
   });
 
+  QUnit.test('Hangul.endsWith Tests', function (assert) {
+    assert.equal(
+      Hangul.endsWith('ㄱ', 'ㄱ'),
+      true,
+      "Hangul.endsWith('ㄱ', 'ㄱ')"
+    );
+    assert.equal(
+      Hangul.endsWith('가', 'ㄱ'),
+      false,
+      "Hangul.endsWith('가', 'ㄱ')"
+    );
+    assert.equal(
+      Hangul.endsWith('가', 'ㅏ'),
+      true,
+      "Hangul.endsWith('가', 'ㅏ')"
+    );
+    assert.equal(
+      Hangul.endsWith('각', 'ㄱ'),
+      true,
+      "Hangul.endsWith('각', 'ㄱ')"
+    );
+  });
+
   QUnit.test('Hangul.assemble and Hangul.disassemble on all Hangul characters', function(assert){
     assert.equal(
       allCharacters.length,
