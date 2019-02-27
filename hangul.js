@@ -434,7 +434,6 @@
   Searcher.prototype.search = function(string) {
     return disassemble(string).join('').indexOf(this.disassembled);
   };
-
   var endsWithConsonant = function (string) {
     if (typeof string === 'object') {
       string = string.join('');
@@ -454,6 +453,11 @@
     return false;
   };
 
+  var endsWith = function (string, target) {
+    return disassemble(string).pop() === target;
+  };
+
+
   var hangul = {
     disassemble: disassemble,
     d: disassemble, // alias for disassemble
@@ -465,6 +469,7 @@
     rangeSearch: rangeSearch,
     Searcher: Searcher,
     endsWithConsonant: endsWithConsonant,
+    endsWith: endsWith,
     isHangul: function(c){
       if (typeof c === 'string')
         c = c.charCodeAt(0);
