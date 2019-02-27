@@ -454,8 +454,8 @@
   };
 
   var endsWith = function (string, target) {
-    return disassemble(string).pop() === target
-  }
+    return disassemble(string).pop() === target;
+  };
 
 
   var hangul = {
