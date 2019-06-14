@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/e-/Hangul.js.svg?branch=master)](https://travis-ci.org/e-/Hangul.js) [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Build Status](https://travis-ci.org/e-/Hangul.js.svg?branch=master)](https://travis-ci.org/e-/Hangul.js)
 
 # Hangul.js
 
@@ -6,23 +6,20 @@
 
 ## 설치 및 사용방법
 
-### Bower
-
-```bash
-bower install hangul-js
-```
-
 ### node.js 
 
 ```bash
 npm install hangul-js
 ```
 ```js
-var Hangul = require('hangul-js');
+const Hangul = require('hangul-js');
 ```
 
 ### TypeScript
 
+```bash
+npm install hangul-js
+```
 ```js
 import * as hangul from 'hangul-js';
 ```
@@ -116,7 +113,7 @@ Hangul.search('달걀','알'); // -1
 `indexOf`함수와 다릅니다.
 
 ```js
-var a = '도우미'
+let a = '도우미'
   , b = '도움';
   
 a.indexOf(b); // -1
@@ -127,7 +124,7 @@ Hangul.search(a, b); // 0
 실제 사용할 때에는 하나의 단어를 여러개의 문자열과 비교하므로 `Hangul.Searcher`를 사용하는게 편합니다. 내부적으로 한번만 자모 분리를 수행하므로 효율적입니다.
 
 ```js
-var searcher = new Hangul.Searcher('닭');
+let searcher = new Hangul.Searcher('닭');
 
 searcher.search('달걀'); // 0
 searcher.search('달구지'); // 0
@@ -139,7 +136,7 @@ searcher.search('달무리'); // -1
 `Hangul.rangeSearch(a:string, b:string)`는 `a` 문자열에서 `b` 문자열을 모두 찾고 일치하는 범위를 `a` 문자열 상의 인덱스로 돌려줍니다. 만약 `b` 문자열을 찾지 못했다면 빈 배열을 돌려줍니다. 검색 시스템에서 일치하는 부분을 강조하려고 할 때 유용합니다.
 
 ```js
-var a = '간장공장공장장',
+let a = '간장공장공장장',
     b = '공장';
 
 Hangul.rangeSearch(a, b); // [[2, 3], [4, 5]]
@@ -189,7 +186,7 @@ Hangul.rangeSearch(a, b); // [[2, 3], [4, 5]]
 핵심 코드는 다음과 같습니다.
 
 ```js
-var input = '아버지가 방에 들어가신다'
+let input = '아버지가 방에 들어가신다'
 
 function stronger(x){
   if(x == 'ㄱ' || x == 'ㅋ') return 'ㄲ';
