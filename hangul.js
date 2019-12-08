@@ -8,46 +8,55 @@
 
 (function () {
     'use strict';
+        /* Disassembled 초성(onset) */
     var CHO = [
-        'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
-        'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
-        'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ',
-        'ㅍ', 'ㅎ'
-    ],
+            'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
+            'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
+            'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ',
+            'ㅍ', 'ㅎ'
+        ],
+        /* Disassembled 중성(nucleus) */
         JUNG = [
             'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
             'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', ['ㅗ', 'ㅏ'], ['ㅗ', 'ㅐ'],
             ['ㅗ', 'ㅣ'], 'ㅛ', 'ㅜ', ['ㅜ', 'ㅓ'], ['ㅜ', 'ㅔ'], ['ㅜ', 'ㅣ'],
             'ㅠ', 'ㅡ', ['ㅡ', 'ㅣ'], 'ㅣ'
         ],
+        /* Desassembled 종성(coda) */
         JONG = [
             '', 'ㄱ', 'ㄲ', ['ㄱ', 'ㅅ'], 'ㄴ', ['ㄴ', 'ㅈ'], ['ㄴ', 'ㅎ'], 'ㄷ', 'ㄹ',
             ['ㄹ', 'ㄱ'], ['ㄹ', 'ㅁ'], ['ㄹ', 'ㅂ'], ['ㄹ', 'ㅅ'], ['ㄹ', 'ㅌ'], ['ㄹ', 'ㅍ'], ['ㄹ', 'ㅎ'], 'ㅁ',
             'ㅂ', ['ㅂ', 'ㅅ'], 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
-        HANGUL_OFFSET = 0xAC00,
+        /* 유니코드 한글 시작 위치 */
+        HANGUL_OFFSET = 0xAC00, 
+        /* 자음 */
         CONSONANTS = [
             'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄸ',
             'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ',
             'ㅁ', 'ㅂ', 'ㅃ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ',
             'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
+        /* Assembled 초성 */
         COMPLETE_CHO = [
             'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
             'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ',
             'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
+        /* Assembled 중성 */
         COMPLETE_JUNG = [
             'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
             'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ',
             'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ',
             'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'
         ],
+        /* Assembled 종성 */
         COMPLETE_JONG = [
             '', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ',
             'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ',
             'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
+        /* 복잡한 자음: [ 자음1, 자음2, 자음1+자음2 ] */
         COMPLEX_CONSONANTS = [
             ['ㄱ', 'ㅅ', 'ㄳ'],
             ['ㄴ', 'ㅈ', 'ㄵ'],
@@ -61,6 +70,7 @@
             ['ㄹ', 'ㅎ', 'ㅀ'],
             ['ㅂ', 'ㅅ', 'ㅄ']
         ],
+        /* 복잡한 모음: [모음1, 모음2, 모음1+모음2] */
         COMPLEX_VOWELS = [
             ['ㅗ', 'ㅏ', 'ㅘ'],
             ['ㅗ', 'ㅐ', 'ㅙ'],
@@ -114,43 +124,45 @@
     COMPLEX_CONSONANTS_HASH = _makeComplexHash(COMPLEX_CONSONANTS);
     COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
 
+    /* c 가 CONSONANTS의 멤버일 경우 true 반환 (c가 자음일 경우 true 반환) */ 
     function _isConsonant(c) {
         return typeof CONSONANTS_HASH[c] !== 'undefined';
     }
-
+    /* c 가 COMPLETE_JUNG의 멤버일 경우 true 반환 (c 가 초성일 경우 true 반환) */
     function _isCho(c) {
         return typeof CHO_HASH[c] !== 'undefined';
     }
-
+    /* c 가 COMPLETE_JUNG의 멤버일 경우 true 반환 (c 가 중성일 경우 true 반환) */
     function _isJung(c) {
         return typeof JUNG_HASH[c] !== 'undefined';
     }
-
+    /* c 가 COMPLETE_JONG의 멤버일 경우 true 반환 (c 가 종성일 경우 true 반환) */
     function _isJong(c) {
         return typeof JONG_HASH[c] !== 'undefined';
     }
-
+    /* c 가 한글일 경우 true 반환 */
     function _isHangul(c /* code number */) {
         return 0xAC00 <= c && c <= 0xd7a3;
     }
-
+    /* a와 b가 중성으로서 결합할 수 있는 경우 COMPLEX_VOWELS_HASH[a][b] 값(결합한 종성의 유니코드 값) 반환 */
     function _isJungJoinable(a, b) {
         return (COMPLEX_VOWELS_HASH[a] && COMPLEX_VOWELS_HASH[a][b]) ? COMPLEX_VOWELS_HASH[a][b] : false;
     }
-
+    /* a와 b가 종성으로서 결합할 수 있는 경우 COMPLEX_CONSONANTS_HASH[a][b] 값(결합한 종성의 유니코드 값) 반환 */
     function _isJongJoinable(a, b) {
         return COMPLEX_CONSONANTS_HASH[a] && COMPLEX_CONSONANTS_HASH[a][b] ? COMPLEX_CONSONANTS_HASH[a][b] : false;
     }
-
+    
     var disassemble = function (string, grouped) {
+        /* 입력값이 NULL일 경우 에러 발생 */
         if (string === null) {
             throw new Error('Arguments cannot be null');
         }
-
+        /* 입력값이 'object' 타입인 경우 문자열로 병합 */
         if (typeof string === 'object') {
             string = string.join('');
         }
-
+        
         var result = [],
             length = string.length,
             cho,
@@ -159,69 +171,80 @@
             code,
             r
             ;
-
+        /* 모든 문자에 대해 확인 */
         for (var i = 0; i < length; i++) {
             var temp = [];
-
-            code = string.charCodeAt(i);
-            if (_isHangul(code)) { // 완성된 한글이면
+            
+            code = string.charCodeAt(i); //문자를 유니코드값으로 변환해 code에 저장
+            /* i번째 문자(code)가 완성된 한글인 경우 */
+            if (_isHangul(code)) {
                 code -= HANGUL_OFFSET;
                 jong = code % 28;
                 jung = (code - jong) / 28 % 21;
                 cho = parseInt((code - jong) / 28 / 21);
-                temp.push(CHO[cho]);
+                temp.push(CHO[cho]); // temp 배열에 초성 추가
+                /* 중성이 object형인 경우 (2 단일 모음의 조합인 경우) */
                 if (typeof JUNG[jung] === 'object') {
-                    temp = temp.concat(JUNG[jung]);
+                    temp = temp.concat(JUNG[jung]); // temp에 해당 중성의 모음들 추가
+                /* 중성이 단일 모음으로 이루어진 경우 */
                 } else {
-                    temp.push(JUNG[jung]);
+                    temp.push(JUNG[jung]); // temp에 해당 모음 추가
                 }
+                /* 종성이 있는 경우 */
                 if (jong > 0) {
+                    /* 종성이 object형인 경우 (2 단일 자음의 조합인 경우) */
                     if (typeof JONG[jong] === 'object') {
-                        temp = temp.concat(JONG[jong]);
+                        temp = temp.concat(JONG[jong]); // temp에 해당 종성의 자음들 추가
+                    /* 종성이 단일 자음으로 이루어진 경우 */
                     } else {
-                        temp.push(JONG[jong]);
+                        temp.push(JONG[jong]); // temp에 해당 자음 추가
                     }
                 }
-            } else if (_isConsonant(code)) { //자음이면
+            /* i번째 문자(code)가 완성된 한글이 아니면서 CONSONANTS의 멤버일 경우 (자음일 경우)*/    
+            } else if (_isConsonant(code)) {
                 if (_isCho(code)) {
-                    r = CHO[CHO_HASH[code]];
+                    r = CHO[CHO_HASH[code]]; // 초성일 경우 해당 초성을 r에 저장
                 } else {
-                    r = JONG[JONG_HASH[code]];
+                    r = JONG[JONG_HASH[code]]; // 종성일 경우 해당 종성을 r에 저장
                 }
                 if (typeof r === 'string') {
-                    temp.push(r);
+                    temp.push(r); // r이 string 형일 경우 temp에 추가
                 } else {
-                    temp = temp.concat(r);
+                    temp = temp.concat(r); // 아닐 경우 temp에 r 배열의 요소들 추가
                 }
+            /* i번째 문자(code)가 완성된 한글이 아니면서 COMPLETE_JUNG의 멤버일 경우 (중성일 경우) */
             } else if (_isJung(code)) {
-                r = JUNG[JUNG_HASH[code]];
+                r = JUNG[JUNG_HASH[code]]; // r에 해당 중성 저장
                 if (typeof r === 'string') {
-                    temp.push(r);
+                    temp.push(r); // r이 string 형일 경우 temp에 추가
                 } else {
-                    temp = temp.concat(r);
+                    temp = temp.concat(r); // 아닐 경우 temp에 r 배열의 요소들 추가
                 }
+            /* i번째 문자(code)가 한글이 아닐 경우 */
             } else {
-                temp.push(string.charAt(i));
+                temp.push(string.charAt(i)); // temp에 i번째 문자를 추가
             }
 
-            if (grouped) result.push(temp);
-            else result = result.concat(temp);
+            if (grouped) result.push(temp); //grouped가 설정된 경우 result에 temp 추가
+            else result = result.concat(temp); //grouped가 설정되지 않은 경우 result에 temp의 요소들 추가
         }
 
         return result;
     };
 
+    /* string으로 disassemle */
     var disassembleToString = function (str) {
         if (typeof str !== 'string') {
-            return '';
+            return ''; // 입력값이 string형이 아닐 경우 빈 문자열 반환
         }
-        str = disassemble(str);
-        return str.join('');
+        str = disassemble(str); // str을 disassemble
+        return str.join(''); // str을 문자열로 반환
     };
 
+    /* string으로 assemble */
     var assemble = function (array) {
         if (typeof array === 'string') {
-            array = disassemble(array);
+            array = disassemble(array); // 입력값이 string형인 경우 우선 disassemble
         }
 
         var result = [],
@@ -249,70 +272,77 @@
             }
             for (var step = 1; ; step++) {
                 if (step === 1) {
-                    cho = array[complete_index + step].charCodeAt(0);
+                    cho = array[complete_index + step].charCodeAt(0); // 첫 자모를 cho에 저장
+                    /* cho가 중성인 경우 */
                     if (_isJung(cho)) { // 첫번째 것이 모음이면 1) ㅏ같은 경우이거나 2) ㅙ같은 경우이다
+                        /* cho의 다음 자모(jung1)가 범위 내에 있으면서 모음인 경우 */
                         if (complete_index + step + 1 <= index && _isJung(jung1 = array[complete_index + step + 1].charCodeAt(0))) { //다음것이 있고 모음이면
-                            result.push(String.fromCharCode(_isJungJoinable(cho, jung1)));
-                            complete_index = index;
+                            result.push(String.fromCharCode(_isJungJoinable(cho, jung1))); // cho와 jung1이 중성으로 조합가능한 경우 result에 조합한 문자 추가
+                            complete_index = index; // complete_index에 index값 저장 (index까지 assemble 완료)
                             return;
+                        /* cho의 다음 자모가 없거나 자음인 경우 (cho와 결합할 것이 없을때)*/
                         } else {
-                            result.push(array[complete_index + step]);
-                            complete_index = index;
+                            result.push(array[complete_index + step]); // result에 cho에 해당하는 자모값 추가
+                            complete_index = index; // complete_index에 index값 저장 (index까지 assemble 완료)
                             return;
                         }
+                    /* cho가 중성이 아니면서 초성도 아닌 경우 */
                     } else if (!_isCho(cho)) {
-                        result.push(array[complete_index + step]);
-                        complete_index = index;
+                        result.push(array[complete_index + step]); // result에 cho에 해당하는 자모값 추가
+                        complete_index = index; // complete_index에 index값 저장 (index까지 assemble 완료)
                         return;
                     }
-                    hangul = array[complete_index + step];
+                    hangul = array[complete_index + step]; // hangul에 첫 자모값 저장
                 } else if (step === 2) {
-                    jung1 = array[complete_index + step].charCodeAt(0);
+                    jung1 = array[complete_index + step].charCodeAt(0); // jung1에 두번째 자모 저장
+                    /* jung1이 자음인 경우 */
                     if (_isCho(jung1)) { //두번째 또 자음이 오면 ㄳ 에서 ㅅ같은 경우이다
-                        cho = _isJongJoinable(cho, jung1);
-                        hangul = String.fromCharCode(cho);
-                        result.push(hangul);
-                        complete_index = index;
+                        cho = _isJongJoinable(cho, jung1); // 앞의 초성(cho)과 jung1이 조합 가능한 경우 cho에 해당 조합을 저장한다
+                        hangul = String.fromCharCode(cho); // hangul에 cho를 문자열로 반환해 저장한다.
+                        result.push(hangul); // result에 hangul 추가
+                        complete_index = index; // complete_index에 index값 저장 (index까지 assemble 완료)
                         return;
+                    /* jung1이 자음이 아닌 경우 */
                     } else {
-                        hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET);
+                        hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + HANGUL_OFFSET); // cho와 jung1을 한글로 조합해 문자열로 반환 후 hangul에 저장
                     }
                 } else if (step === 3) {
-                    jung2 = array[complete_index + step].charCodeAt(0);
+                    jung2 = array[complete_index + step].charCodeAt(0); // jung2에 세번째 자모 저장
                     if (_isJungJoinable(jung1, jung2)) {
-                        jung1 = _isJungJoinable(jung1, jung2);
+                        jung1 = _isJungJoinable(jung1, jung2); // jung1과 jung2가 종성으로서 조합 가능한 경우 조합 해 jung1에 저장
                     } else {
-                        jong1 = jung2;
+                        jong1 = jung2; // jung1과 jung2가 종성으로서 조합 불가능한 경우 jung2값을 jong1에 저장
                     }
                     hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
                     
                 } else if (step === 4) {
-                    jong2 = array[complete_index + step].charCodeAt(0);
+                    jong2 = array[complete_index + step].charCodeAt(0); // jong2에 네번째 자모 저장
                     if (_isJongJoinable(jong1, jong2)) {
-                        jong1 = _isJongJoinable(jong1, jong2);
+                        jong1 = _isJongJoinable(jong1, jong2); // jong1과 jong2가 종성으로서 조합 가능한 경우 조합 후 jong1에 저장
                     } else {
-                        jong1 = jong2;
+                        jong1 = jong2; // jong1과 jong2가 종성으로서 조합 불가능한 경우 jong2값을 jong1에 저장
                     }
-                    hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
+                    hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET); // cho, jung1, jong1를 한글로 조합해 문자열로 반환 후 hangul에 저장
                 } else if (step === 5) {
-                    jong2 = array[complete_index + step].charCodeAt(0);
-                    jong1 = _isJongJoinable(jong1, jong2);
-                    hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET);
+                    jong2 = array[complete_index + step].charCodeAt(0); // jong2에 다섯번째 자모 저장
+                    jong1 = _isJongJoinable(jong1, jong2); // jong1과 jong2를 종성으로서 조합해 jong1에 저장
+                    hangul = String.fromCharCode((CHO_HASH[cho] * 21 + JUNG_HASH[jung1]) * 28 + JONG_HASH[jong1] + HANGUL_OFFSET); // cho, jung1, jong1를 한글로 조합해 문자열로 반환 후 hangul에 저장
                 }
 
                 if (complete_index + step >= index) {
-                    result.push(hangul);
+                    result.push(hangul); // result에 hangul 추가 (조합 결과 추가)
                     complete_index = index;
                     return;
                 }
             }
         }
-
+        
+        /* 모든 문자에 대해 확인 */
         for (var i = 0; i < length; i++) {
             code = array[i].charCodeAt(0);
             if (!_isCho(code) && !_isJung(code) && !_isJong(code)) { //초, 중, 종성 다 아니면
-                _makeHangul(i - 1);
-                _makeHangul(i);
+                _makeHangul(i - 1); // i-1번째 문자까지 우선 한글로 조합한 후
+                _makeHangul(i); // i번째부터 다시 조합
                 stage = 0;
                 continue;
             }
@@ -391,11 +421,12 @@
     };
 
     var search = function (a, b) {
+        /* a 와 b 를 disassemble한 후 문자열로 반환해 ad, bd에 각각 저장 */
         var ad = disassemble(a).join(''),
             bd = disassemble(b).join('')
             ;
 
-        return ad.indexOf(bd);
+        return ad.indexOf(bd); // ad 에서 bd가 포함되는 인덱스를 찾아 반환
     };
 
     var rangeSearch = function (haystack, needle) {
@@ -439,6 +470,7 @@
     Searcher.prototype.search = function (string) {
         return disassemble(string).join('').indexOf(this.disassembled);
     };
+    /* string이 자음으로 끝나는지 확인 */
     var endsWithConsonant = function (string) {
         if (typeof string === 'object') {
             string = string.join('');
@@ -458,6 +490,7 @@
         return false;
     };
 
+    /* string이 target 문자로 끝나는지 확인 */
     var endsWith = function (string, target) {
         return disassemble(string).pop() === target;
     };
