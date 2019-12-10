@@ -3,33 +3,118 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Hangul.js</title>
-    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.2.1.css">
+		<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.2.1.css">
 		<style>
 			#str{
-				width:500px;
-				height:100px;
+				border-radius: 5px;
+				width:300px;
+				height:50px;
+				background-repeat:no-repeat;
+				border:1px solid;
+				padding:0.5em 0 0.5em 1em;
+				font-family:tahoma;
+				font-size:12px;
 			}
+			#test1{
+				margin:20px;
+				color:#6a6f8c;
+				background:#c8c8c8;
+				font:600 16px/18px 'Open Sans',sans-serif;
+			}
+
+			#firstTitle{
+				width:100%;
+				margin:auto;
+				max-width:400px;
+				min-height:50px;
+				position:center;
+				box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+
+				color: #D3D3D3;
+				background-color: #0D3349;
+				text-align: center;
+				font-size: 1.1em;
+				line-height: 2em;
+				font-weight: 400;
+				border-radius: 5px 5px 5px 5px;
+			}
+			#test1-result1{
+				width:100%;
+				margin:auto;
+				max-width:400px;
+				min-height:50px;
+				position:center;
+				box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+
+				color: #D3D3D3;
+				background-color: #0D3349;
+				text-align: center;
+				font-size: 1.1em;
+				line-height: 2em;
+				font-weight: 400;
+				border-radius: 5px 5px 5px 5px;
+			}
+			#test1-result2{
+				width:100%;
+				margin:auto;
+				max-width:400px;
+				min-height:50px;
+				position:center;
+				box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+
+				color: #D3D3D3;
+				background-color: #0D3349;
+				text-align: center;
+				font-size: 1.1em;
+				line-height: 2em;
+				font-weight: 400;
+				border-radius: 5px 5px 5px 5px;
+			}
+			#submitButton{
+				border: 1px solid #0D3349;
+				border-top-left-radius: 5px;
+				border-bottom-left-radius: 5px;
+				border-top-right-radius: 5px;
+				border-bottom-right-radius: 5px;
+				background-color: #D3D3D3;
+				color: #0D3349; padding: 5px;
+			}
+			#submitButton:hover{
+				color:white; background-color: #0D3349;
+			}
+
 		</style>
 	</head>
 	<body>
 		<div id="qunit"></div>
     <div id="qunit-fixture"></div>
-		<h2><code>Hangul.assemble(Hangul.disassemble(str) === str // for well-formed Hangul-string str</code></h2>
-		<form id="test1">
-			<h3>str</h3>
-			<textarea id="str" placeholder="str"></textarea>
-			<button type="submit">Hangul.assemble(Hangul.disassemble(str))</button>
-			<h3>disassemble result</h3>
-			<div id="test1-result1"></div>
-			<h3>asssemble result</h3>
-			<div id="test1-summary2">
-			</div>
-			<div id="test1-result2">
-			</div>
-		</form>
+		<h2><code></code></h2>
+		<div id="body">
+			<form id="test1">
+				<h3 id="firstTitle">자음과 모음 분리할 문장 입력</h3>
+				<br>
+				<br>
+				<br>
+				<br>
+
+				<textarea id="str" placeholder="str">문장을 입력하세요.</textarea>
+				<button id="submitButton" type="submit" style="cursor:pointer">입력</button>
+				<br>
+				<br>
+				<div id="test1-result1">
+					<h4>결과</h4>
+				</div>
+				<br>
+				<br>
+
+				<div id="test1-result2">
+					<h4>재조합된 문장 결과</h4>
+				</div>
+			</form>
+		</div>
 		<script src="../hangul.js"></script>
-		<script src="https://code.jquery.com/jquery-1.8.3.min.js"></script>
-    	<script src="https://code.jquery.com/qunit/qunit-2.2.1.js"></script>
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script src="https://code.jquery.com/qunit/qunit-2.2.1.js"></script>
 		<script src="index.js"></script>
 	</body>
 </html>
