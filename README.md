@@ -21,7 +21,7 @@ const Hangul = require('hangul-js');
 npm install hangul-js
 ```
 ```js
-import * as angul from 'hangul-js';
+import * as Hangul from 'hangul-js';
 ```
 
 ### 일반 웹 페이지
