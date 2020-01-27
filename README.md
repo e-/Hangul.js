@@ -31,7 +31,7 @@ import * as Hangul from 'hangul-js';
 <script src="hangul.js" type="text/javascript"></script>
 
 <!-- or from CDN -->
-<scrip src="https://unpkg.com/hangul-js" type="text/javascript"></script>
+<script src="https://unpkg.com/hangul-js" type="text/javascript"></script>
 ```
 자바스크립트 코드에서 전역에 노출된 Hangul이라는 객체를 통해 접근할 수 있습니다.
 ```js
