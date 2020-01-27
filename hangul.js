@@ -429,6 +429,10 @@
         return ad.indexOf(bd); // ad 에서 bd가 포함되는 인덱스를 찾아 반환
     };
 
+    var includes = function (a, b) {
+        return search(a, b) > -1;
+    };
+
     var rangeSearch = function (haystack, needle) {
         var hex = disassemble(haystack).join(''),
             nex = disassemble(needle).join(''),
@@ -504,6 +508,7 @@
         assemble: assemble,
         a: assemble, // alias for assemble
         search: search,
+        includes: includes,
         rangeSearch: rangeSearch,
         Searcher: Searcher,
         endsWithConsonant: endsWithConsonant,

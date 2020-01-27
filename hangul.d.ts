@@ -12,6 +12,7 @@ declare interface Hangul {
   disassembleToString(str: string): string;
   assemble(arr: string[]): string;
   search(a: string, b: string): number;
+  includes(a: string, b: string): boolean;
   rangeSearch(haystack: string, needle: string): number[][];
   isComplete(c: string): boolean;
   isCompleteAll(str: string): boolean;
