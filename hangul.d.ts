@@ -13,6 +13,8 @@ declare interface Hangul {
   assemble(arr: string[]): string;
   search(a: string, b: string): number;
   rangeSearch(haystack: string, needle: string): number[][];
+  includes(a: string, b: string): boolean;
+  concat(...args: string[]): string;
   isComplete(c: string): boolean;
   isCompleteAll(str: string): boolean;
   isConsonant(c: string): boolean;
