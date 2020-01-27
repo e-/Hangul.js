@@ -201,6 +201,34 @@ QUnit.test('Hangul.search Tests', function (assert) {
     );
 });
 
+QUnit.test('Hangul.includes Tests', function (assert) {
+    assert.equal(
+        Hangul.includes('도우미', '도움'),
+        true,
+        "Hangul.includes('도우미', '도움')"
+    );
+    assert.equal(
+        Hangul.includes('달걀', '닭'),
+        true,
+        "Hangul.includes('달걀', '닭')"
+    );
+    assert.equal(
+        Hangul.includes('도우미', 'ㅜㅁ'),
+        true,
+        "Hangul.includes('도우미', 'ㅜㅁ')"
+    );
+    assert.equal(
+        Hangul.includes('달맞이', 'ㄹ마'),
+        true,
+        "Hangul.includes('달맞이', 'ㄹ마')"
+    );
+    assert.equal(
+        Hangul.includes('달맞이', 'ㅁㅈ'),
+        false,
+        "Hangul.includes('달맞이', 'ㅁㅈ')"
+    );
+});
+
 QUnit.test('Hangul.Searcher Tests', function (assert) {
     var searcher = new Hangul.Searcher('닭');
 
