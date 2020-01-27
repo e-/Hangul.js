@@ -12,7 +12,6 @@ declare interface Hangul {
   disassembleToString(str: string): string;
   assemble(arr: string[]): string;
   search(a: string, b: string): number;
-  includes(a: string, b: string): boolean;
   rangeSearch(haystack: string, needle: string): number[][];
   includes(a: string, b: string): boolean;
   concat(...args: string[]): string;
