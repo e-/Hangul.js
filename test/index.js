@@ -260,6 +260,11 @@ QUnit.test('Hangul.concat Tests', function (assert) {
         '북엇국 순댓국',
         "Hangul.concat('북어', 'ㅅ국 순대', 'ㅅ국')"
     );
+    assert.equal(
+        Hangul.concat('달', 'ㅁㅇ', 'ㅡㄴ'),
+        '닮은',
+        "Hangul.concat('달', 'ㅁㅇ', 'ㅡㄴ')"
+    );
 });
 
 QUnit.test('Hangul Check Tests', function (assert) {
