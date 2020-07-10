@@ -452,51 +452,57 @@
         return array[Math.floor(Math.random() * length)];
     }
 
-    /* 종성이 주어되면, 가능한 복잡한 종성으로 치환한 구성을 반환한다. */
-    var _toComplexJong = function (arr) {
-        var code = arr[arr.length - 1].charCodeAt(0);
+    /* 가능한 복잡한 종성을 반환한다. (ㄴ -> ㄵ 등) */
+    var _toComplexJong = function (code) {
         var complexed = COMPLEXABLE_CONSONANTS_HASH[code];
-        if (typeof complexed !== 'undefined') {
-            // 변환이 가능한 경우에는, 종성을 치환한다.
-            arr[arr.length - 1] = String.fromCharCode(_randomElement(complexed));
+        if (typeof complexed === 'undefined') {
+            // 불가능한 경우에는 그대로 유지한다. (ㅇ, ㅎ 등)
+            return String.fromCharCode(code);
+        } else {
+            return String.fromCharCode(_randomElement(complexed));
+        }
+    };
+
+    /* 완성형 한글 하나를 난독화한다. */
+    var _obfuscate = function (arr) {
+        var length = arr.length;
+        var lastCode = arr[arr.length - 1].charCodeAt(0); // 마지막 음의 코드
+        if (length == 2) { // ㄱㅏ 인 경우, 복잡한 받침을 추가한다.
+            arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+        } else if (length == 3) { // ㄱㅏㅇ 또는 ㄱㅏㅆ 또는 ㄱㅗㅏ
+            if (_isJung(lastCode)) { // ㄱㅗㅏ
+                arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+            } else { // ㄱㅏㅇ 또는 ㄱㅏㅆ
+                // 마지막 자리를 복잡하게 바꾼다.
+                arr[arr.length - 1] = _toComplexJong(lastCode);
+            }
+        } else if (length == 4) { // ㄱㅏㄹㅁ 또는 ㅇㅗㅏㅇ
+            // ㄱㅏㄹㅁ은 받침이 더 이상 들어갈 자리가 없다.
+            if (_isJung(arr[2])) { // ㅇㅗㅏㅇ은 마지막 자음만 변환하면 된다. (괄->괅)
+                arr[arr.length - 1] = _toComplexJong(lastCode);
+            }
         }
         return arr;
     };
 
+    /* 문장을 훼손하지 않고, 종성에 자음을 최대한 추가하여 난독화한다. */
     var obfuscation = function (str) {
-        var array = [];
-        if (typeof str === 'string') {
-            array = disassemble(str, true); // 종성 변형을 위해 초성, 중성, 종성을 분리하여 저장한다.
+        // 문자열이 아닌 경우에는 빈 문자열을 반환
+        if (typeof str !== 'string') {
+            return '';
         }
+        var array = disassemble(str, true); // 종성 변형을 위해 초성, 중성, 종성을 분리하여 저장한다.
         var result = [],
-            length = str.length,
-            code,
-            charSize
+            length = str.length
             ;
         for (var i = 0; i < length; i++) {
             if (!_isHangul(str.charCodeAt(i))) { // 완성형 한글이 아니면 무시한다.
                 result.push(str[i]);
                 continue;
             }
-            var char = array[i];
-            var arr = disassemble(char); // 자음 모음으로 분리한다.
-            charSize = char.length;
-            code = arr[arr.length - 1].charCodeAt(0); // 마지막 음의 코드
-            if (charSize == 2) { // ㄱㅏ 인 경우, 복잡한 받침을 추가한다.
-                arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
-            } else if (charSize == 3) { // ㄱㅏㅇ 또는 ㄱㅏㅆ 또는 ㄱㅗㅏ
-                if (_isJung(code)) { // ㄱㅗㅏ
-                    arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
-                } else { // ㄱㅏㅇ 또는 ㄱㅏㅆ
-                    // 마지막 자리를 복잡하게 바꾼다.
-                    arr = _toComplexJong(arr);
-                }
-            } else if (charSize == 4) { // ㄱㅏㄹㅁ 또는 ㅇㅗㅏㅇ
-                // 마지막 자리를 복잡하게 바꾼다.
-                // 가능한 경우는, 괄 -> 괅 이 있다.
-                arr = _toComplexJong(arr);
-            }
-            result.push(assemble(arr)); // 다시 완성형 한글로 합친다.
+            var char = disassemble(array[i]); // 자음 모음으로 분리한다.
+            char = _obfuscate(char);
+            result.push(assemble(char)); // 다시 완성형 한글로 합친다.
         }
         return result.join('');
     };
