@@ -56,6 +56,11 @@
             'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ',
             'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
+        /* Assembled 종성 (복잡한 자음) */
+        COMPLETE_COMPLEX_JONG = [
+            'ㄲ', 'ㄳ', 'ㄵ', 'ㄶ', 'ㄺ', 'ㄻ', 'ㄼ',
+            'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅄ', 'ㅆ'
+        ],
         /* 복잡한 자음: [ 자음1, 자음2, 자음1+자음2 ] */
         COMPLEX_CONSONANTS = [
             ['ㄱ', 'ㅅ', 'ㄳ'],
@@ -420,6 +425,94 @@
         return result.join('');
     };
 
+    var COMPLEXABLE_CONSONANTS_HASH;
+    var _makeComplexableHash = function (array) {
+        var length = array.length,
+            hash = {},
+            code1,
+            code2
+            ;
+        for(var i = 0; i < length; ++i){
+            code1 = array[i][0].charCodeAt(0);
+            code2 = array[i][2].charCodeAt(0);
+            if(typeof hash[code1] === 'undefined') {
+                hash[code1] = [];
+            }
+            hash[code1].push(code2);
+        }
+        return hash;
+    };
+    COMPLEXABLE_CONSONANTS_HASH = _makeComplexableHash(COMPLEX_CONSONANTS);
+
+    function _randomElement(array) {
+        if (typeof array === 'undefined') {
+            return undefined;
+        }
+        var length = array.length;
+        return array[Math.floor(Math.random() * length)];
+    }
+
+    var obfuscation = function (str) {
+        var array = [];
+        if (typeof str === 'string') {
+            array = disassemble(str); // 입력값이 string형인 경우 우선 disassemble
+        }
+        var length = array.length,
+            string = array.join('')
+            ;
+        
+        var _makePossibleComplex = function(code) {
+            var complexableCode = _randomElement(COMPLEXABLE_CONSONANTS_HASH[code]);
+            if (typeof complexableCode === "undefined") complexableCode = code;
+            return String.fromCharCode(complexableCode);
+        };
+
+        var result = [];
+        for (var i = 0; i < length; i++) {
+            result.push(string[i]);
+
+            var code = string.charCodeAt(i);
+            var nextCode = string.charCodeAt(i + 1);
+            var nextCode2 = string.charCodeAt(i + 2);
+            var nextCode3 = string.charCodeAt(i + 3);
+            var randomComplex = _randomElement(COMPLETE_COMPLEX_JONG);
+
+            if (_isCho(code) && _isJung(nextCode)) { // C+V+(?)
+                if(!_isConsonant(nextCode2) && !_isJung(nextCode2)) {
+                    result = result.concat([String.fromCharCode(nextCode), randomComplex]);
+                    i++;
+                    continue;
+                } else if(_isConsonant(nextCode2)) {
+                    if (_isJung(nextCode3)) { // C+V+C+(V)
+                        continue;
+                    } else { // C+V+C+(C)
+                        // => C+V+[C=>C']+(C)
+                        var possibleComplex = _makePossibleComplex(nextCode2);
+                        result = result.concat([String.fromCharCode(nextCode), possibleComplex]);
+                        i += 2;
+                    }
+                }
+            }
+            else if (_isJung(code) && _isJong(nextCode)) { // V+C+(?)
+                var possibleComplex = _makePossibleComplex(nextCode);
+
+                if (_isJung(nextCode2)) { // V+C+(V)
+                    // => V+[C']+C+(V)
+                    result = result.concat([randomComplex, String.fromCharCode(nextCode)]);
+                    i++;
+                } else if (_isCho(nextCode2) && _isJung(nextCode3)) { // V+C+(C+V)
+                    // => V+[C=>C']+(C+V)
+                    result = result.concat([possibleComplex, String.fromCharCode(nextCode2)]);
+                    i += 2;
+                } else if (!_isHangul(nextCode2)) { // V+C+(*)
+                    result.push(possibleComplex);
+                    i++;
+                }
+            }
+        }
+        return assemble(result);
+    };
+
     var search = function (a, b) {
         /* a 와 b 를 disassemble한 후 문자열로 반환해 ad, bd에 각각 저장 */
         var ad = disassemble(a).join(''),
@@ -579,7 +672,8 @@
                 if (!_isJong(str.charCodeAt(i))) return false;
             }
             return true;
-        }
+        },
+        obfuscation: obfuscation
     };
 
     if (typeof define == 'function' && define.amd) {
