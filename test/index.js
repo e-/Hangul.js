@@ -648,7 +648,7 @@ QUnit.test('rangeSearch() tests', function (assert) {
     );
 });
 
-QUnit.test('Hangul.obfuscation Tests', function (assert) {
+QUnit.test('Hangul.obfuscate and Hangul.obfuscateAll Tests', function (assert) {
     var sentences = [
         '돼지고기',
         '웬 초콜릿? 제가 원했던 건 뻥튀기 쬐끔과 의류예요. (속닥)',
@@ -660,11 +660,21 @@ QUnit.test('Hangul.obfuscation Tests', function (assert) {
 
     for (var i = 0; i < sentences.length; i++) {
         assert.deepEqual(
-            Hangul.obfuscation(sentences[i]).length,
+            Hangul.obfuscateAll(sentences[i]).length,
             sentences[i].length,
-            "Hangul.obfuscation('" + sentences[i] + "')"
+            "Hangul.obfuscateAll('" + sentences[i] + "')"
         );
     }
+
+    var str = '';
+    for (var i = 0; i < allCharacters.length; i++) {
+        str += Hangul.assemble(Hangul.obfuscate(allCharacters[i]));
+    }
+    assert.deepEqual(
+        str.length,
+        allCharacters.length,
+        "allCharacters.length == (all of Hangul.assemble(Hangul.obfuscate(allCharacters))).length"
+    );
 });
 
 // $('#test1').submit(function () {

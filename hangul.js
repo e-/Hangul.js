@@ -131,15 +131,21 @@
         var length = array.length,
             hash = {},
             code1,
-            code2
+            code2,
+            value
             ;
         for(var i = 0; i < length; ++i){
             code1 = array[i][0].charCodeAt(0);
-            code2 = array[i][2].charCodeAt(0);
+            code2 = array[i][1].charCodeAt(0);
+            value = array[i][2].charCodeAt(0);
             if(typeof hash[code1] === 'undefined') {
                 hash[code1] = [];
             }
-            hash[code1].push(code2);
+            if(typeof hash[code2] === 'undefined') {
+                hash[code2] = [];
+            }
+            hash[code1].push(value);
+            hash[code2].push(value);
         }
         return hash;
     };
@@ -491,7 +497,7 @@
     var obfuscateToString = function (arr) {
         var result = obfuscate(disassemble(arr, true)[0]);
         return result.join('');
-    }
+    };
 
     /* 문장을 훼손하지 않고, 종성에 자음을 최대한 추가하여 난독화한다. */
     var obfuscateAll = function (str) {
