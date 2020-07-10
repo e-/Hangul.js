@@ -90,7 +90,8 @@
         JUNG_HASH,
         JONG_HASH,
         COMPLEX_CONSONANTS_HASH,
-        COMPLEX_VOWELS_HASH
+        COMPLEX_VOWELS_HASH,
+        COMPLEXABLE_CONSONANTS_HASH
         ;
 
     function _makeHash(array) {
@@ -126,8 +127,26 @@
         return hash;
     }
 
+    var _makeComplexableHash = function (array) {
+        var length = array.length,
+            hash = {},
+            code1,
+            code2
+            ;
+        for(var i = 0; i < length; ++i){
+            code1 = array[i][0].charCodeAt(0);
+            code2 = array[i][2].charCodeAt(0);
+            if(typeof hash[code1] === 'undefined') {
+                hash[code1] = [];
+            }
+            hash[code1].push(code2);
+        }
+        return hash;
+    };
+
     COMPLEX_CONSONANTS_HASH = _makeComplexHash(COMPLEX_CONSONANTS);
     COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
+    COMPLEXABLE_CONSONANTS_HASH = _makeComplexableHash(COMPLEX_CONSONANTS);
 
     /* c 가 CONSONANTS의 멤버일 경우 true 반환 (c가 자음일 경우 true 반환) */ 
     function _isConsonant(c) {
@@ -425,25 +444,6 @@
         return result.join('');
     };
 
-    var COMPLEXABLE_CONSONANTS_HASH;
-    var _makeComplexableHash = function (array) {
-        var length = array.length,
-            hash = {},
-            code1,
-            code2
-            ;
-        for(var i = 0; i < length; ++i){
-            code1 = array[i][0].charCodeAt(0);
-            code2 = array[i][2].charCodeAt(0);
-            if(typeof hash[code1] === 'undefined') {
-                hash[code1] = [];
-            }
-            hash[code1].push(code2);
-        }
-        return hash;
-    };
-    COMPLEXABLE_CONSONANTS_HASH = _makeComplexableHash(COMPLEX_CONSONANTS);
-
     function _randomElement(array) {
         if (typeof array === 'undefined') {
             return undefined;
@@ -461,7 +461,7 @@
             arr[arr.length - 1] = String.fromCharCode(_randomElement(complexed));
         }
         return arr;
-    }
+    };
 
     var obfuscation = function (str) {
         var array = [];
@@ -589,6 +589,7 @@
         Searcher: Searcher,
         endsWithConsonant: endsWithConsonant,
         endsWith: endsWith,
+        obfuscation: obfuscation,
         isHangul: function (c) {
             if (typeof c === 'string')
                 c = c.charCodeAt(0);
@@ -660,8 +661,7 @@
                 if (!_isJong(str.charCodeAt(i))) return false;
             }
             return true;
-        },
-        obfuscation: obfuscation
+        }
     };
 
     if (typeof define == 'function' && define.amd) {
