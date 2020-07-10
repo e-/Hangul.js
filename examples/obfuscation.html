@@ -42,9 +42,19 @@
           <label for="input">입력 문장</label>
           <textarea class="form-control" id="input" placeholder="아버지가 방에 들어가신다"></textarea>
         </div>
+        <div class="form-group">
+          <label for="output">출력 문장 #1 (기본값; 모두 적용)</label>
+          <div class="form-control" id="output"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-2">출력 문장 #2 (50%만 적용)</label>
+          <div class="form-control" id="output-2"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-3">출력 문장 #3 (25%만 적용)</label>
+          <div class="form-control" id="output-3"></div>
+        </div>
       </form>
-      <label for="output">출력 문장</label>
-      <div class="form-control" id="output"></div>
     </div>
 
 <script>
@@ -56,12 +66,28 @@
     }
   }
 
+  function obfuscateCustom(str, percentage) {
+    var result = '';
+    for (var i = 0; i < str.length; i++) {
+      var ch = str[i];
+      if (Math.random() < percentage) {
+        ch = Hangul.assemble(Hangul.obfuscate(str[i]));
+      }
+      result += ch;
+    }
+    return result;
+  }
+
   var $ = document.querySelector.bind(document);
 
   ready(function(){
     $('#input').addEventListener('keyup', function(){
       var input = this.value;
-      $('#output').innerHTML = Hangul.obfuscation(input);
+      $('#output').innerHTML = Hangul.obfuscateAll(input);
+      for (var i = 2; i <= 3; ++i) {
+        var percentage = i == 2 ? 0.5 : 0.2;
+        $('#output-' + i).innerHTML = obfuscateCustom(input, percentage);
+      }
     });
   });
 </script>

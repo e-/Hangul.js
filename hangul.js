@@ -464,7 +464,10 @@
     };
 
     /* 완성형 한글 하나를 난독화한다. */
-    var _obfuscate = function (arr) {
+    var obfuscate = function (arr) {
+        if (typeof arr === 'string') {
+            return obfuscateToString(arr);
+        }
         var length = arr.length;
         var lastCode = arr[arr.length - 1].charCodeAt(0); // 마지막 음의 코드
         if (length == 2) { // ㄱㅏ 인 경우, 복잡한 받침을 추가한다.
@@ -485,8 +488,13 @@
         return arr;
     };
 
+    var obfuscateToString = function (arr) {
+        var result = obfuscate(disassemble(arr, true)[0]);
+        return result.join('');
+    }
+
     /* 문장을 훼손하지 않고, 종성에 자음을 최대한 추가하여 난독화한다. */
-    var obfuscation = function (str) {
+    var obfuscateAll = function (str) {
         // 문자열이 아닌 경우에는 빈 문자열을 반환
         if (typeof str !== 'string') {
             return '';
@@ -496,13 +504,14 @@
             length = str.length
             ;
         for (var i = 0; i < length; i++) {
-            if (!_isHangul(str.charCodeAt(i))) { // 완성형 한글이 아니면 무시한다.
+            if (_isHangul(str.charCodeAt(i))) { // 완성형 한글만 변형한다.
+                var char = disassemble(array[i]); // 자음 모음으로 분리한다.
+                char = obfuscate(char);
+                result.push(assemble(char)); // 다시 완성형 한글로 합친다.
+            } else {
+                // 아닌 경우는 그대로 유지한다.
                 result.push(str[i]);
-                continue;
             }
-            var char = disassemble(array[i]); // 자음 모음으로 분리한다.
-            char = _obfuscate(char);
-            result.push(assemble(char)); // 다시 완성형 한글로 합친다.
         }
         return result.join('');
     };
@@ -595,7 +604,8 @@
         Searcher: Searcher,
         endsWithConsonant: endsWithConsonant,
         endsWith: endsWith,
-        obfuscation: obfuscation,
+        obfuscate: obfuscate,
+        obfuscateAll: obfuscateAll,
         isHangul: function (c) {
             if (typeof c === 'string')
                 c = c.charCodeAt(0);
