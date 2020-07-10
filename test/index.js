@@ -648,6 +648,25 @@ QUnit.test('rangeSearch() tests', function (assert) {
     );
 });
 
+QUnit.test('Hangul.obfuscation Tests', function (assert) {
+    var sentences = [
+        '돼지고기',
+        '웬 초콜릿? 제가 원했던 건 뻥튀기 쬐끔과 의류예요. (속닥)',
+        '휴, 모두 커피숍 곁을 찾냐?',
+        '괆퀡퇣풿횂뚫훑송땄쮰뿕읁',
+        'AB삵e$@%2s낄캌ㅋ',
+        '콩고물과 우유 1병이 들어간 빙수는 차게 먹어야 특별한 맛이 잘 표현되며, 원리는 모릅니다.'
+    ];
+
+    for (var i = 0; i < sentences.length; i++) {
+        assert.deepEqual(
+            Hangul.obfuscation(sentences[i]).length,
+            sentences[i].length,
+            "Hangul.obfuscation('" + sentences[i] + "')"
+        );
+    }
+});
+
 // $('#test1').submit(function () {
 //     var str = $('#str').val(),
 //         result1 = Hangul.disassemble(str),
