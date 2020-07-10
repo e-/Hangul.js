@@ -452,65 +452,49 @@
         return array[Math.floor(Math.random() * length)];
     }
 
+    /* 종성이 주어되면, 가능한 복잡한 종성으로 치환한 구성을 반환한다. */
+    var _toComplexJong = function (arr) {
+        // TODO: implements to convert last character to complex
+        var code = arr[arr.length - 1].charCodeAt(0);
+        return arr;
+    }
+
     var obfuscation = function (str) {
         var array = [];
         if (typeof str === 'string') {
-            array = disassemble(str); // 입력값이 string형인 경우 우선 disassemble
+            array = disassemble(str, true); // 종성 변형을 위해 초성, 중성, 종성을 분리하여 저장한다.
         }
-        var length = array.length,
-            string = array.join('')
+        var result = [],
+            length = str.length,
+            code,
+            charSize
             ;
-        
-        var _makePossibleComplex = function(code) {
-            var complexableCode = _randomElement(COMPLEXABLE_CONSONANTS_HASH[code]);
-            if (typeof complexableCode === "undefined") complexableCode = code;
-            return String.fromCharCode(complexableCode);
-        };
-
-        var result = [];
         for (var i = 0; i < length; i++) {
-            result.push(string[i]);
-
-            var code = string.charCodeAt(i);
-            var nextCode = string.charCodeAt(i + 1);
-            var nextCode2 = string.charCodeAt(i + 2);
-            var nextCode3 = string.charCodeAt(i + 3);
-            var randomComplex = _randomElement(COMPLETE_COMPLEX_JONG);
-
-            if (_isCho(code) && _isJung(nextCode)) { // C+V+(?)
-                if(!_isConsonant(nextCode2) && !_isJung(nextCode2)) {
-                    result = result.concat([String.fromCharCode(nextCode), randomComplex]);
-                    i++;
-                    continue;
-                } else if(_isConsonant(nextCode2)) {
-                    if (_isJung(nextCode3)) { // C+V+C+(V)
-                        continue;
-                    } else { // C+V+C+(C)
-                        // => C+V+[C=>C']+(C)
-                        var possibleComplex = _makePossibleComplex(nextCode2);
-                        result = result.concat([String.fromCharCode(nextCode), possibleComplex]);
-                        i += 2;
-                    }
-                }
+            if (!_isHangul(str.charCodeAt(i))) { // 완성형 한글이 아니면 무시한다.
+                result.push(str[i]);
+                continue;
             }
-            else if (_isJung(code) && _isJong(nextCode)) { // V+C+(?)
-                var possibleComplex = _makePossibleComplex(nextCode);
-
-                if (_isJung(nextCode2)) { // V+C+(V)
-                    // => V+[C']+C+(V)
-                    result = result.concat([randomComplex, String.fromCharCode(nextCode)]);
-                    i++;
-                } else if (_isCho(nextCode2) && _isJung(nextCode3)) { // V+C+(C+V)
-                    // => V+[C=>C']+(C+V)
-                    result = result.concat([possibleComplex, String.fromCharCode(nextCode2)]);
-                    i += 2;
-                } else if (!_isHangul(nextCode2)) { // V+C+(*)
-                    result.push(possibleComplex);
-                    i++;
+            var char = array[i];
+            var arr = disassemble(char); // 자음 모음으로 분리한다.
+            charSize = char.length;
+            code = arr[arr.length - 1].charCodeAt(0); // 마지막 음의 코드
+            if (charSize == 2) { // ㄱㅏ 인 경우, 복잡한 받침을 추가한다.
+                arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+            } else if (charSize == 3) { // ㄱㅏㅇ 또는 ㄱㅏㅆ 또는 ㄱㅗㅏ
+                if (_isJung(code)) { // ㄱㅗㅏ
+                    arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+                } else { // ㄱㅏㅇ 또는 ㄱㅏㅆ
+                    // 마지막 자리를 복잡하게 바꾼다.
+                    arr = _toComplexJong(arr);
                 }
+            } else if (charSize == 4) { // ㄱㅏㄹㅁ 또는 ㅇㅗㅏㅇ
+                // 마지막 자리를 복잡하게 바꾼다.
+                // 가능한 경우는, 괄 -> 괅 이 있다.
+                arr = _toComplexJong(arr);
             }
+            result.push(assemble(arr)); // 다시 완성형 한글로 합친다.
         }
-        return assemble(result);
+        return result.join('');
     };
 
     var search = function (a, b) {
