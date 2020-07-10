@@ -454,8 +454,12 @@
 
     /* 종성이 주어되면, 가능한 복잡한 종성으로 치환한 구성을 반환한다. */
     var _toComplexJong = function (arr) {
-        // TODO: implements to convert last character to complex
         var code = arr[arr.length - 1].charCodeAt(0);
+        var complexed = COMPLEXABLE_CONSONANTS_HASH[code];
+        if (typeof complexed !== 'undefined') {
+            // 변환이 가능한 경우에는, 종성을 치환한다.
+            arr[arr.length - 1] = String.fromCharCode(_randomElement(complexed));
+        }
         return arr;
     }
 
