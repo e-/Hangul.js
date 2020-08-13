@@ -470,6 +470,22 @@
     Searcher.prototype.search = function (string) {
         return disassemble(string).join('').indexOf(this.disassembled);
     };
+
+    var includes = function (a, b) {
+        return search(a, b) > -1;
+    };
+
+    var concat = function () {
+        var args = [].slice.call(arguments);
+        var array = [];
+        for (var i = 0; i < args.length; ++i) {
+            var disassembledArg = disassemble(args[i]);
+            for (var j = 0; j < disassembledArg.length; ++j) {
+                array.push(disassembledArg[j]);
+            }
+        }
+        return assemble(array);
+    };
     /* string이 자음으로 끝나는지 확인 */
     var endsWithConsonant = function (string) {
         if (typeof string === 'object') {
@@ -506,6 +522,8 @@
         search: search,
         rangeSearch: rangeSearch,
         Searcher: Searcher,
+        includes: includes,
+        concat: concat,
         endsWithConsonant: endsWithConsonant,
         endsWith: endsWith,
         isHangul: function (c) {
