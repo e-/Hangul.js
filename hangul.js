@@ -56,6 +56,11 @@
             'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ',
             'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
         ],
+        /* Assembled 종성 (복잡한 자음) */
+        COMPLETE_COMPLEX_JONG = [
+            'ㄲ', 'ㄳ', 'ㄵ', 'ㄶ', 'ㄺ', 'ㄻ', 'ㄼ',
+            'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅄ', 'ㅆ'
+        ],
         /* 복잡한 자음: [ 자음1, 자음2, 자음1+자음2 ] */
         COMPLEX_CONSONANTS = [
             ['ㄱ', 'ㅅ', 'ㄳ'],
@@ -85,7 +90,9 @@
         JUNG_HASH,
         JONG_HASH,
         COMPLEX_CONSONANTS_HASH,
-        COMPLEX_VOWELS_HASH
+        COMPLEX_VOWELS_HASH,
+        COMPLEXABLE_CONSONANTS_HASH,
+        COMPLEXABLE_VOWELS_HASH
         ;
 
     function _makeHash(array) {
@@ -121,8 +128,34 @@
         return hash;
     }
 
+    var _makeComplexableHash = function (array) {
+        var length = array.length,
+            hash = {},
+            code1,
+            code2,
+            value
+            ;
+        for(var i = 0; i < length; ++i){
+            code1 = array[i][0].charCodeAt(0);
+            code2 = array[i][1].charCodeAt(0);
+            value = array[i][2].charCodeAt(0);
+            if(typeof hash[code1] === 'undefined') {
+                hash[code1] = [];
+            }
+            if(typeof hash[code2] === 'undefined') {
+                hash[code2] = [];
+            }
+            hash[code1].push(value);
+            hash[code2].push(value);
+        }
+        return hash;
+    };
+
     COMPLEX_CONSONANTS_HASH = _makeComplexHash(COMPLEX_CONSONANTS);
     COMPLEX_VOWELS_HASH = _makeComplexHash(COMPLEX_VOWELS);
+    COMPLEXABLE_CONSONANTS_HASH = _makeComplexableHash(COMPLEX_CONSONANTS);
+    COMPLEXABLE_VOWELS_HASH = _makeComplexableHash(COMPLEX_VOWELS);
+
 
     /* c 가 CONSONANTS의 멤버일 경우 true 반환 (c가 자음일 경우 true 반환) */ 
     function _isConsonant(c) {
@@ -420,6 +453,97 @@
         return result.join('');
     };
 
+    function _randomElement(array) {
+        if (typeof array === 'undefined') {
+            return undefined;
+        }
+        var length = array.length;
+        return array[Math.floor(Math.random() * length)];
+    }
+
+    /* 가능한 복잡한 자음 또는 모음을 hash를 참고하여 반환한다. (ㄴ -> ㄵ, ㅗ -> ㅘ 등) */
+    var _toComplex = function (hash, code) {
+        var complexed = hash[code];
+        if (typeof complexed === 'undefined') {
+            // 불가능한 경우에는 그대로 유지한다. (ㅇ, ㅎ 등)
+            return String.fromCharCode(code);
+        } else {
+            return String.fromCharCode(_randomElement(complexed));
+        }
+    };
+
+    /* 완성형 한글 하나를 난독화한다. */
+    /* option => 0: 적용 안 함, 1: 자음(종성)만, 2: 모음(중성)만, 3: 둘 다 적용 (기본값) */
+    var obfuscate = function (arr, option) {
+        if (typeof arr === 'string') {
+            return obfuscateToString(arr[0], option);
+        }
+        if (typeof option === 'undefined') {
+            option = 3;
+        }
+        // 자음 적용
+        if (option & 1) {
+            var length = arr.length;
+            var lastCode = arr[arr.length - 1].charCodeAt(0); // 마지막 음의 코드
+            if (length == 2) { // ㄱㅏ 인 경우, 복잡한 받침을 추가한다.
+                arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+            } else if (length == 3) { // ㄱㅏㅇ 또는 ㄱㅏㅆ 또는 ㄱㅗㅏ
+                if (_isJung(lastCode)) { // ㄱㅗㅏ
+                    arr.push(_randomElement(COMPLETE_COMPLEX_JONG));
+                } else { // ㄱㅏㅇ 또는 ㄱㅏㅆ
+                    // 마지막 자리를 복잡하게 바꾼다.
+                    arr[arr.length - 1] = _toComplex(COMPLEXABLE_CONSONANTS_HASH, lastCode);
+                }
+            } else if (length == 4) { // ㄱㅏㄹㅁ 또는 ㅇㅗㅏㅇ
+                // ㄱㅏㄹㅁ은 받침이 더 이상 들어갈 자리가 없다.
+                if (_isJung(arr[2])) { // ㅇㅗㅏㅇ은 마지막 자음만 변환하면 된다. (괄->괅)
+                    arr[arr.length - 1] = _toComplex(COMPLEXABLE_CONSONANTS_HASH, lastCode);
+                }
+            }
+        }
+        // 모음 적용
+        if (option & 2) {
+            // 이중모음이 아닌 경우에만 변형한다. (ㅇㅜㅓㅇ -> 그대로)
+            if (_isJung(arr[1].charCodeAt(0)) && !_isJung((arr[2] || '').charCodeAt(0))) {
+                arr[1] = _toComplex(COMPLEXABLE_VOWELS_HASH, arr[1].charCodeAt(0));
+            }
+        }
+        return arr;
+    };
+
+    var obfuscateToString = function (char, option) {
+        if (!_isHangul(char.charCodeAt(0))) {
+            return char;
+        } else {
+            var result = obfuscate(disassemble(char, true)[0], option);
+            return assemble(result);
+        }
+    };
+
+    /* 문장을 훼손하지 않고, 종성에 자음을 최대한 추가하여 난독화한다. */
+    /* option => 0: 적용 안 함, 1: 자음(종성)만, 2: 모음(중성)만, 3: 둘 다 적용 (기본값) */
+    var obfuscateAll = function (str, option) {
+        // 문자열이 아닌 경우에는 빈 문자열을 반환
+        if (typeof str !== 'string') {
+            return '';
+        }
+        var array = disassemble(str, true); // 종성 변형을 위해 초성, 중성, 종성을 분리하여 저장한다.
+        var result = [],
+            length = str.length
+            ;
+        for (var i = 0; i < length; i++) {
+            if (_isHangul(str.charCodeAt(i))) { // 완성형 한글만 변형한다.
+                var char = disassemble(array[i]); // 자음 모음으로 분리한다.
+                char = obfuscate(char, option);
+                result.push(assemble(char)); // 다시 완성형 한글로 합친다.
+            } else {
+                // 아닌 경우는 그대로 유지한다.
+                result.push(str[i]);
+            }
+        }
+        return result.join('');
+    };
+
     var search = function (a, b) {
         /* a 와 b 를 disassemble한 후 문자열로 반환해 ad, bd에 각각 저장 */
         var ad = disassemble(a).join(''),
@@ -508,6 +632,8 @@
         Searcher: Searcher,
         endsWithConsonant: endsWithConsonant,
         endsWith: endsWith,
+        obfuscate: obfuscate,
+        obfuscateAll: obfuscateAll,
         isHangul: function (c) {
             if (typeof c === 'string')
                 c = c.charCodeAt(0);

@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hangul.js 난독화 예제</title>
+    <script src="../hangul.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Hangul.js 난독화 예제</h1>
+      <hr>
+      <ul class="nav nav-pills">
+        <li role="presentation"><a href="index.html">자모음 분리</a></li>
+        <li role="presentation"><a href="stronger.html">된소리</a></li>
+        <li role="presentation" class="active"><a href="#">난독화</a></li>
+      </ul>
+      <br>
+      <p>이 예제는 입력으로 주어진 문장에 홑받침 중 ㄲ, ㅆ 또는 겹받침을 활용하여, 원문을 훼손하지 않는 상태에서 읽기 힘들도록 만든 문장을 보여줍니다.</p>
+      <p>받침을 추가할 수 없는 문자는 그대로 유지됩니다.</p>
+      <table class="table table-stripped table-bordered">
+        <tr>
+          <th>입력</th>
+          <th>출력 예시</th>
+        </tr>
+        <tr><td>가</td><td>갔, 갏, 갉 ...</td></tr>
+        <tr><td>간</td><td>갅, 갆 중 하나</td></tr>
+        <tr><td>갇</td><td>갇</td></tr>
+        <tr><td>갔</td><td>갔</td></tr>
+        <tr><td>갈</td><td>갉, 갊, 갋, 갍, 갎, 갏 중 하나</td></tr>
+        <tr><td>갑</td><td>값</td></tr>
+      </table>
+      
+      <p>난독화에 사용되는 잉여 자음들은 무작위로 만들어지므로, 결과는 매번 다를 수 있습니다.</p>
+      <ul>
+        <li>아버지가 방에 들어가신다 &#8594; 앒벏짋갔 방엜 듥얿갂싢닦</li>
+        <li>여기 호텔 절대 오지 마세요 &#8594; 엹긲 혽텕 젎댃 옧짅 맜셇욣</li>
+      </ul>
+
+      <form>
+        <div class="form-group">
+          <label for="input">입력 문장</label>
+          <textarea class="form-control" id="input" placeholder="아버지가 방에 들어가신다"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="output">출력 문장 #1 (기본값; 모두 적용)</label>
+          <div class="form-control" id="output"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-2">출력 문장 #2 (자음(종성)만 적용)</label>
+          <div class="form-control" id="output-2"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-3">출력 문장 #3 (모음(중성)만 적용)</label>
+          <div class="form-control" id="output-3"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-4">출력 문장 #4 (랜덤하게 50%의 문자만 적용)</label>
+          <div class="form-control" id="output-4"></div>
+        </div>
+        <div class="form-group">
+          <label for="output-5">출력 문장 #5 (랜덤하게 25%의 문자만 적용)</label>
+          <div class="form-control" id="output-5"></div>
+        </div>
+      </form>
+    </div>
+
+<script>
+  function ready(fn) {
+    if (document.readyState != 'loading'){
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
+
+  function obfuscateCustom(str, percentage) {
+    var result = '';
+    for (var i = 0; i < str.length; i++) {
+      var ch = str[i];
+      if (Math.random() < percentage) {
+        ch = Hangul.assemble(Hangul.obfuscate(str[i]));
+      }
+      result += ch;
+    }
+    return result;
+  }
+
+  var $ = document.querySelector.bind(document);
+
+  ready(function(){
+    $('#input').addEventListener('keyup', function(){
+      var input = this.value;
+      $('#output').innerHTML = Hangul.obfuscateAll(input);
+      $('#output-2').innerHTML = Hangul.obfuscateAll(input, 1); // 자음만
+      $('#output-3').innerHTML = Hangul.obfuscateAll(input, 2); // 모음만
+      for (var i = 4; i <= 5; ++i) {
+        var percentage = i == 4 ? 0.5 : 0.25;
+        $('#output-' + i).innerHTML = obfuscateCustom(input, percentage);
+      }
+    });
+  });
+</script>
+
+  </body>
+</html>
