@@ -154,7 +154,7 @@ Hangul.rangeSearch(a, b); // [[2, 3], [4, 5]]
 #### Hangul.isConsonant(c)
 
 주어진 문자가 자음인지 판단합니다. 
-`Hangul.isCosonantAll(str)` 형태로 `str`의 모든 문자가 자음인지 판단할 수 있습니다.
+`Hangul.isConsonantAll(str)` 형태로 `str`의 모든 문자가 자음인지 판단할 수 있습니다.
 
 #### Hangul.isVowel(c)
 
