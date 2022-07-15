@@ -36,6 +36,6 @@ declare interface Hangul {
 
 declare const hangul: Hangul;
 
-declare module "hangul-js" {
+declare module 'hangul-js' {
   export = hangul;
 }
