@@ -26,6 +26,7 @@ declare interface Hangul {
   isJong(c: string): boolean;
   isJongAll(str: string): boolean;
   endsWithConsonant(c: string): boolean;
+  endsWith(arr: string[], target: string): boolean;
   // Alias functions.
   d(str: string, grouped?: false): string[];
   d(str: string, grouped?: true): string[][];
