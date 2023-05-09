@@ -327,12 +327,12 @@ QUnit.test('Hangul Check Tests', function (assert) {
         "Hangul.isJong('ㄳ')"
     );
     assert.equal(
-        Hangul.isCho('ㅏ'),
+        Hangul.isJong('ㅏ'),
         false,
         "Hangul.isJong('ㅏ')"
     );
     assert.equal(
-        Hangul.isCho('a'),
+        Hangul.isJong('a'),
         false,
         "Hangul.isJong('a')"
     );
