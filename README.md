@@ -1,4 +1,15 @@
-[![Build Status](https://travis-ci.org/e-/Hangul.js.svg?branch=master)](https://travis-ci.org/e-/Hangul.js)
+🔔 유지보수 공지
+
+현재 이 프로젝트는 최소한의 유지보수 상태로 전환되었습니다. 코드는 여전히 작동하지만, 개발 및 업데이트가 중단된 상태입니다.
+
+추천 대안: 더 활발하게 관리되는 솔루션을 찾으시는 분들은 [es-hangul](https://es-hangul.slash.page/)을 확인해 보시기 바랍니다. 해당 프로젝트는 조사 외 다른 한글 관련 기능들도 제공하고 있습니다.
+
+향후 계획: 추후에 개발을 재개할 수 있지만, 현재로서는 사용자분들이 필요에 가장 적합한 도구를 사용하실 수 있도록 안내해 드리고자 합니다. 이 저장소는 참고 및 기록 용도로 계속 유지될 예정입니다. 현재 이 프로젝트를 사용 중이시고 필요를 충족하고 계시다면 계속 사용하실 수 있습니다. 다만, 새롭게 도입하려 하신다면 위에서 언급한 대안을 검토해 보시기를 추천드립니다.
+
+그동안 이 프로젝트를 지원하고 기여해 주신 모든 분들께 감사드립니다.
+
+Maintenance Notice: This project is currently in a low-maintenance state. For new implementations, we recommend checking out es-hangul which is actively maintained and offers more features. This repository will remain available for reference.
+
 
 # Hangul.js
 
